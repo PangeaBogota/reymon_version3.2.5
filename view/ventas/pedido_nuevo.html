@@ -1,0 +1,841 @@
+<style type="text/css">
+    .test {
+    width:120px;
+    height:100%;
+    background-repeat:no-repeat;background-size:120px 100%;
+    border: 1px solid black;
+
+}
+.img_pro {
+    width:200px;
+    height:150px;
+    background-repeat:no-repeat;background-size:200px 100%;
+    border: 1px solid black;
+</style>
+<div ng-controller="pedidoController">
+    <div class="page-title">
+        <div class="title_left">
+            <h3 style="width: 200px">{{acciones.tituloPagina}}</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_content x_panel">
+                <ul class="nav nav-tabs tabs">
+                    <li data-tab="tab_1" class="active"><a data-tab="tab_1" data-toggle="tab">Encabezado</a></li>
+                    <li data-tab="tab_2" ng-show="Pedido.rowid>0" ><a data-tab="tab_2" data-toggle="tab">Detalle</a></li>
+                    <li data-tab="tab_3" ng-show="Pedido.rowid>0"><a data-tab="tab_3" data-toggle="tab">Balance</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div id="tab_1" class="tab-pane active">
+                        <form id="form_encabezado" data-parsley-validate class="form-horizontal form-label-left" name="form_encabezado"  novalidate>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class=" col-md-12 col-xs-12">
+                                        <label  class="control-label">Tercero<span class="required">*</span></label>
+                                        <input  placeholder="Seleccionar Tercero" type="text" ng-model="Search" class="form-control col-md-7 col-xs-12 creado"  ng-change="onChangeFiltroTercero()"  ></input>
+                                        <select  
+                                            ng-model="Tercero"  id="Tercero" ng-options="partner as partner.razonsocial 
+                                            for partner in ListaTerceros | filter:Search" class="form-control  sucursal creado" ng-change="onChangeTercero()" >
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class=" col-md-12 col-xs-12">
+                                        <label  class="control-label">Sucursal<span class="required">*</span></label>
+                                        <select  
+                                            ng-model="Sucursal"  id="Sucursal" ng-options="partner as partner.sucursal 
+                                            for partner in ListaSucursales " class="form-control  sucursal creado" ng-change="onChangeSucursal()" >
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class=" col-md-12 col-xs-12">
+                                        <label  class="control-label">Punto Envio<span class="required">*</span></label>
+                                        <select id="id_punto_envio"  required
+                                            ng-model="PuntoEnvio"  ng-options="puntoenvio as puntoenvio.concatenado 
+                                            for puntoenvio in ListaPuntoEnvios " class="form-control creado"  >
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class=" col-md-12 col-xs-12">
+                                        <label  class="control-label">Direccion<span class="required">*</span></label>
+                                        <input ng-model="PuntoEnvio.direccion" class="form-control" readonly></input>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class=" col-md-12 col-xs-12">
+                                        <label  class="control-label">Contacto<span class="required">*</span></label>
+                                        <input ng-model="PuntoEnvio.contacto" class="form-control" readonly></input>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class=" col-md-12 col-xs-12">
+                                        <label  class="control-label">Email<span class="required">*</span></label>
+                                        <input ng-model="PuntoEnvio.email" class="form-control" readonly></input>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class=" col-md-12 col-xs-12">
+                                        <label  class="control-label">Telefono<span class="required">*</span></label>
+                                        <input ng-model="PuntoEnvio.telefono" class="form-control" readonly></input>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class=" col-md-12 col-xs-12">
+                                        <label  class="control-label">Orden Compra<span class="required">*</span></label>
+                                        <input ng-model="OrdenCompra" type="text" placeholder="Orden Compra" class="form-control" ></input>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class=" col-md-12 col-xs-12">
+                                        <label  class="control-label">Fecha Entrega<span class="required">*</span></label>
+                                        <input ng-model="FechaEntrega" ng-change="onChangeFechaEntrega()" type="date" id="FechaEntrega" class="form-control" ></input>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-actions ">
+                                <button type="button" class="btn btn-success pull-right" ng-show="Pedido.rowid==0"  ng-click="GuardarEncabezado()">Guardar y Continuar</button>
+                                <button type="button" class="btn btn-success pull-right" ng-show="Pedido.rowid>0"  ng-click="ValidacionEncabezado(2)">Continuar</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div id="tab_2" class="tab-pane">
+                        <form class="form-horizontal form-label-left" name="form_detalle" >
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class=" col-md-12 col-xs-12">
+                                        <label  class="control-label">Item<span class="required">*</span></label>
+                                        <input ng-model="FiltroItem" type="text" placeholder="Referencia" class="form-control" ></input>
+                                    </div>
+                                </div>
+                            </div>    
+                            <div class="form-group">
+                                <select   ng-model="Item"   ng-options="item as item.producto 
+                                    for item in ListaItems  |filter:FiltroItem"    ng-change="onChangeComboItem()" class="form-control"  required >
+                                </select>
+                            </div>   
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class=" col-md-12 col-xs-12">
+                                        <label  class="control-label">Empaque<span class="required">*</span></label>
+                                        <select   ng-model="Item.empaque"   ng-options="Empaques as Empaques.tipo_reg_nombre for Empaques in Empaques " class="form-control" required > </select> 
+                                    </div>
+                                </div>
+                            </div>     
+                            <div class="" ng-show="ItemSeleccionado==true">
+                                <div class=" pull-right">
+                                    <button class="btn btn-info" ng-click="CambiarSeleccion(0)" ng-show="SeleccionDocena">UND.</button>
+                                    <button class="btn btn-info" ng-click="CambiarSeleccion(1)" ng-hide="SeleccionDocena">DOC.</button>
+                                    <button class="btn btn-primary" ng-click="TallasMediaDocena()" ng-show="SeleccionDocena">6</button>
+                                    <button class="btn btn-success" ng-click="TallasDocena()" ng-show="SeleccionDocena">12</button>
+                                </div>
+                            </div>              
+                            <div class="form-group" ng-show="ItemSeleccionado==true" >
+                                <table class="table  table-responsive table-hover">
+                                    <thead>
+                                        <tr>
+                                        <th style="text-align: center;">Tallas</th>
+                                        <th style="text-align: center;">Cantidad</th>
+                                        <th style="text-align: center;"> Accion </th>
+                                    </tr>
+                                    </thead>
+                                    <!--SELECCION DOCENAS-->
+                                    <tr  ng-repeat="tallas in Tallas " ng-show="SeleccionDocena"  >
+                                        <td  style="align-content:center;" >
+                                            <div class="row">
+                                                <div class="col-md-6 col-md-offset-5">
+                                                    <input type="checkbox"  ng-model="tallas.duplicado"  >
+                                                    {{tallas.talla}}
+                                                </div>        
+                                            </div>
+                                        </td>
+                                        <td    style="align-content:center;" >
+                                            <div >
+                                                 <div class=" input-group"  >
+                                                    <span class="input-group-btn" ng-click="cantidadTalla(tallas.talla,'restar')">
+                                                        <button type="button" class="btn btn-default">
+                                                            <span class="glyphicon glyphicon-minus">
+                                                                
+                                                            </span>
+                                                        </button>
+                                                    </span>
+                                                    <input type="number" class="form-control " ng-model="tallas.cantidad"  ng-change="onChangeCantidad(tallas.talla)"  step="any"  style="min-width:50px;text-align:center;" min="0" />
+                                                    <span class="input-group-btn" ng-click="cantidadTalla(tallas.talla,'suma',tallas.stock)">
+                                                        <button type="button" class="btn btn-default">
+                                                            <span class="glyphicon glyphicon-plus">
+                                                            </span>
+                                                        </button>
+                                                    </span>
+                                                </div> 
+                                            </div>
+                                        </td>
+                                        <td  >
+                                        <div class="input-group">
+                                            <button class="btn btn-success colores-add"  ng-click="openModalDetalle2(tallas.itemID,tallas.talla,tallas.cantidad)"><span class="fa fa-plus"></span></button>
+                                            <span class="fa fa-exclamation-triangle" style="color:#FF0040"  ng-show="tallas.Estado==2"></span>
+                                            <span class="fa fa-check-circle" style="color:#2F9B89" ng-show="tallas.Estado==1"></span>
+                                        </div>
+                                            
+                                        </td>
+                                    </tr>
+                                    <!--SELECCION DOCENAS-->
+                                    <!--SELECCION UNIDAD-->
+                                    <tr  ng-repeat="tallas in TallasUnidad " ng-hide="SeleccionDocena"  >
+                                        <td  style="align-content:center;" >
+                                            <div class="row">
+                                                <div class="span12" style="text-align: center;">
+                                                    
+                                                    {{tallas.talla}}
+                                                </div>        
+                                            </div>
+                                        
+                                        </td>
+                                        <td    style="align-content:center;" >
+                                            <div >
+                                                 <div class="span12"  >
+                                                    
+                                                    <input type="number" class="form-control " ng-model="tallas.cantidad" disabled  ng-change="onChangeCantidad(tallas.talla)"  step="any"  style="min-width:50px;text-align:center;" min="0" />
+                                                    
+                                                </div> 
+                                            </div>
+                                        </td>
+                                        <td  >
+                                            <div class="row">
+                                                <div class="span12">
+                                                    <button class="btn btn-success colores-add"  ng-click="openModalColoresUnidad(tallas.itemID,tallas.talla,tallas.cantidad)"><span class="fa fa-plus"></span></button>
+                                                    <span class="fa fa-exclamation-triangle" style="color:#FF0040"  ng-show="tallas.Estado==2"></span>
+                                                    <span class="fa fa-check-circle" style="color:#2F9B89" ng-show="tallas.Estado==1"></span>
+                                                </div>
+                                            </div>
+                                        
+                                            
+                                        </td>
+                                    </tr>
+                                    <!--SELECCION UNIDAD-->
+                                    <tr>
+                                        <td>Cantidad Docenas</td>
+                                        <td>{{CantidadTotalReferencia}}</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Cantidad Unidades</td>
+                                        <td>{{CantidadTotalReferenciaUnidades}}</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Total </td>
+                                        <td>{{(CantidadTotalReferencia*12)+CantidadTotalReferenciaUnidades}}</td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="form-group" ng-show="ItemSeleccionado==true">
+                                <div class="row">
+                                    <div class=" col-md-12 col-xs-12">
+                                        <label for="descripcion">Descripcion:</label> 
+                                        <textarea class="form-control" rows="4" id="descripcion" ng-model="Item.observacion" maxlength="20"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-actions" ng-show="ItemSeleccionado==true">
+                                <button type="button" class="btn btn-success pull-right"  ng-click="adicionarItem()" data-toggle="dropdown" >
+                                    {{acciones.BotonAgregar}}
+                                </button> 
+                            </div>
+                        </form>
+                    </div>
+                    <div class="tab-pane" id="tab_3">
+                        <form class="form-horizontal form-label-left">
+                            <div class="form-group">
+                                <!--<div style="overflow-x:auto;" class="table-resposive" >
+                                    <table class="table  table-striped responsive-utilities jambo_table bulk_action">
+                                        <thead>
+                                            <th class="column-title">
+                                                Ref. 
+                                            </th>
+                                            <th ng-repeat="data in  TABLA_BALANCE" class="column-title">
+                                                {{data.TALLAS}}
+                                            </th>
+                                            <th class="column-title">Total</th>
+                                            <th class="column-title">Emp.</th>
+                                            <th class="column-title">Accion</th>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="items in itemsAgregadosPedido" >
+                                                <td ng-click="ModalItem(items)">
+                                                     {{items.item_referencia1}}
+                                                </td>
+                                                <td ng-repeat="talla in items.Tallas" ng-click="ModalItem(items)">
+                                                    <center>
+                                                        {{talla.cantidad1}}
+                                                    </center>
+                                                </td>
+                                                <td ng-click="ModalItem(items)">{{items.cantidadTotal}}</td>
+                                                <td ng-click="ModalItem(items)">{{items.EmpaqueS}}</td>
+                                                <td>
+                                                    <span class="fa fa-pencil btn btn-success" ng-click="editarItem(items,$index)" style="font-size:.7em; width:30px;">
+                                                    </span>
+                                                    <span class="fa fa-trash-o btn btn-danger" ng-click="EliminarItemPedido(items)" style="font-size:.7em; width:30px;">
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    Total:
+                                                </td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td>{{CantidadTotalPedido}}</td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>-->
+                                <div class="row" style="margin: 0px"><h3>Items</h3></div>
+                            <div style="overflow-x:auto;" class="table-resposive">
+                                <table class="table  table-striped responsive-utilities jambo_table bulk_action">
+                                    <thead>
+                                        <th class="column-title">
+                                            Ref. 
+                                        </th>
+                                        <th ng-repeat="data in  TABLA_BALANCE" class="column-title">
+                                            {{data.TALLAS}}
+                                        </th>
+                                        <th class="column-title">Total</th>
+                                        <th class="column-title">Emp.</th>
+                                        <th class="column-title">Acc.</th>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="item in itemsAgregadosPedido">
+                                           <td ng-click="ModalItem(item)">
+                                               {{item.item_referencia}}
+                                           </td>
+                                           <td ng-click="ModalItem(item)" ng-repeat="subitem in item.tallas track by $index ">
+                                                <center>
+                                                    {{subitem.cantidad}}
+                                                </center>
+                                           </td>
+                                           <td ng-click="ModalItem(item)">{{item.cantidadtotal}}</td>
+                                           <td ng-click="ModalItem(item)">{{item.empaque}}</td>
+                                           <td>
+                                                <span class="fa fa-pencil btn btn-success" ng-click="editarItem(item,$index)" style="font-size:.7em; width:30px;">
+                                                </span>
+                                                <span class="fa fa-trash-o btn btn-danger" ng-click="EliminarItemPedido(item)" style="font-size:.7em; width:30px;">
+                                                </span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                Total:
+                                            </td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td>{{contadores.cont5}}</td>
+                                            <td></td>
+                                             <td></td>
+                                        </tr>
+                                    </tbody>
+                                
+                                </table>  
+                            </div>
+                            </div>
+                            <div class="form-group" >
+                                <div class="row">
+                                    <div class=" col-md-12 col-xs-12">
+                                        <span class="badge">Total : {{ValoresTotales.total| currency}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group" >
+                                <div class="row">
+                                    <div class=" col-md-12 col-xs-12">
+                                        <label >Observaciones <span ></span>
+                                </label>
+                                <textarea class="form-control" rows="2" id="descripcion" ng-model="Pedido.observaciones" maxlength="1990" ></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <button class="btn btn-success pull-right" id="btnGuardar" ng-click="FinalizarPedido()">Guardar<i class="icon-angle-right"></i></button>
+                                <button class="btn btn-primary pull-right" ng-click="CambiarTab(2);">Atras</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>           
+            </div>
+        </div>
+    </div>
+    <div id="confirmacionsalida" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel">Confirmacion Salida</h4>
+                </div>
+                <div class="modal-body">
+                    <div id="testmodal" style="padding: 0px;">
+                        <form id="antoform" class="form-horizontal calender form-label-left" role="form">
+                            <div>
+                                ¿Deseas Salir del Pedido?
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-danger antoclose" ng-click="onConfirmarSalida('salir')" data-dismiss="modal" style="margin:0px">Salir</button>
+                <!--<button type="button" class="btn btn-success antoclose" ng-click="onConfirmarSalida('guardar')" data-dismiss="modal" >Si</button>-->
+                <button type="button" class="btn btn-primary antoclose" ng-click="onConfirmarSalida('permanecer')" data-dismiss="modal">Permanecer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="confirmacion" data-toggle="modal" data-target="#confirmacionsalida"></div>
+    <div id="ColoresMasivoModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static" style="overflow-y:auto">
+    <div class="modal-dialog" style="padding-bottom:100px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="">Asignacion Colores</h4>
+            </div>
+            <div class="modal-body" >
+                <div id="testmodal" style="padding: 0px;">
+                    <form id="antoform" class="form-horizontal calender form-label-left" role="form">
+                        <div class="row" style="margin: 0px">
+                            <div class="form-group col-md-12" style="margin: 1px">
+                                Item: <strong>{{Item.item_referencia1}}</strong> 
+                            </div>
+                             <div class="form-group col-md-12" style="margin: 1px">
+                                Cantidad Restante: <strong>{{CantidadDocena}}</strong> 
+                            </div>
+                        </div>
+                        <table class="table">
+                            <tr>
+                                <td ></td>
+                                <td style="width: 40%">Color</td>
+                                <td style="width: 40%">Cantidad</td>
+                            </tr>
+                            <tr ng-repeat="extension in ColorMasivo">
+                                <td class="test" ng-click="openModalProducto(extension)" style="border: 1px solid #b6b6b6;background:{{extension.rgba}}" 
+                                ng-show="extension.url_imagen=='null'">
+
+                                </td>
+                                <td class="test" ng-click="openModalProducto(extension)"  style="border: 1px solid #b6b6b6;background-image:url({{coma}}{{url}}{{extension.url_imagen}}{{coma}});" 
+                                ng-show="extension.url_imagen!='null'">
+
+                                </td>
+                                <td>{{extension.extencionDetalle2ID}}</td>
+                                <td>
+                                     <div class=" input-group" style="max-width:160px"  >
+                                        <span class="input-group-btn"  ng-click="adicionarCantidadColor(extension.extencionDetalle2ID,'RESTAR')">
+                                            <button type="button" class="btn btn-default">
+                                                <span class="glyphicon glyphicon-minus">
+                                                    
+                                                </span>
+                                            </button>
+                                        </span>
+                                        <input type="number" step="any" ng-model="extension.cantidad" style="min-width:50px"  class="form-control text-center" readonly="readonly"  />
+                                        <span class="input-group-btn"  ng-click="adicionarCantidadColor(extension.extencionDetalle2ID,'SUMAR')">
+                                            <button type="button" class="btn btn-default">
+                                                <span class="glyphicon glyphicon-plus">
+                                                </span>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </td>
+                                
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-danger antoclose" id="ModalMasivo" style="margin:0px" ng-click="ModalColorMasivo=true;"  data-dismiss="modal">Salir</button>
+            <button type="button" class="btn btn-success antoclose"  ng-click="AgregarColoresMasivo()"  data-dismiss="modal">Confirmar</button>
+            </div>
+        </div>
+    </div>
+    </div>
+    <div id="OpenModalColor" data-toggle="modal" data-target="#ColoresMasivoModal"></div>
+    <div id="extensionDetalle2" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static" style="overflow-y:auto">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="myModalLabel">Asignacion Colores</h4>
+                    </div>
+                    <div class="modal-body" >
+                        <div id="testmodal" style="padding: 0px;">
+                            <form id="antoform" class="form-horizontal calender form-label-left" role="form">
+                                <div class="row" style="margin: 0px">
+                                    <div class="form-group col-md-12" style="margin: 1px">
+                                        Item: <strong>{{Item.item_referencia1}}</strong> 
+                                    </div>
+                                   
+                                </div>
+                                <div class="row" style="margin: 0px">
+                                    <div class="form-group col-md-12" style="margin: 1px">
+                                        Talla: <strong>{{InfoItemAdicional.talla}}</strong> 
+                                    </div>
+                                </div>
+                                <div class="row" style="margin: 0px">
+                                    <div class="form-group col-md-12" style="margin: 1px">
+                                        Cantidad: <strong>{{InfoItemAdicional.cantidad}}</strong> 
+                                    </div>
+                                </div>
+                                <div class="row" style="margin: 0px">
+                                    <div class="form-group col-md-12" style="margin: 1px">
+                                        Cantidad Sin Color: <strong>{{cantidadRestanteColor}}</strong> 
+                                    </div>
+                                </div>
+                                <table class="table">
+                                    <tr>
+                                        <td></td>
+                                        <td>Color</td>
+                                        <td>Proceso</td>
+                                        <td>Cantidad</td>
+                                        <td>Stock</td>
+                                    </tr>
+                                    <tr ng-repeat="extension in ColoresTalla" style="height:5px">
+                                        <td class="test" ng-click="openModalProducto(extension)" style="border: 1px solid #b6b6b6;background:{{extension.rgba}}" 
+                                ng-show="extension.url_imagen=='null'">
+
+                                </td>
+                                <td class="test" ng-click="openModalProducto(extension)" style="border: 1px solid #b6b6b6;background-image:url({{coma}}{{url}}{{extension.url_imagen}}{{coma}});" 
+                                ng-show="extension.url_imagen!='null'">
+                                        </td>
+                                        <td>{{extension.extencionDetalle2ID}}</td>
+                                        <td>{{extension.proceso}}</td>
+                                        <td>
+                                             <div class=" input-group" style="max-width:160px"  >
+                                                <span class="input-group-btn"  ng-click="adicionarCantidadDetalle2(extension.extencionDetalle2ID,'restar',extension.stock,extension.cantidadextension1)">
+                                                    <button type="button" class="btn btn-default">
+                                                        <span class="glyphicon glyphicon-minus">
+                                                        </span>
+                                                    </button>
+                                                </span>
+                                                <input type="number" step="any" ng-model="extension.cantidad" style="min-width:50px" ng-change="onChangeCantidadDetalle2(extension.extencionDetalle2ID,extension.stock,extension.cantidadextension1)" class="form-control text-center" ng-readonly="readonly" min="0" />
+                                                <span class="input-group-btn"  ng-click="adicionarCantidadDetalle2(extension.extencionDetalle2ID,'sumar',extension.stock,extension.cantidadextension1)">
+                                                    <button type="button" class="btn btn-default">
+                                                        <span class="glyphicon glyphicon-plus">
+                                                        </span>
+                                                    </button>
+                                                </span>
+                                            </div>
+                                        </td>
+                                        <td>{{extension.stock}}</td>
+                                    </tr>
+                                </table>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-danger antoclose" id="CerrarModalColores" style="margin:0px"   data-dismiss="modal">Salir</button>
+                    <button type="button" class="btn btn-success antoclose"  ng-click="agregarColoresTalla()"  data-dismiss="modal">Confirmar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="extension2" data-toggle="modal" data-target="#extensionDetalle2"></div>
+        <div id="ColoresUnidadSeleccion" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static" style="overflow-y:auto">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="myModalLabel">Asignacion Colores</h4>
+                    </div>
+                    <div class="modal-body" >
+                        <div id="testmodal" style="padding: 0px;">
+                            <form id="antoform" class="form-horizontal calender form-label-left" role="form">
+                                <div class="row" style="margin: 0px">
+                                    <div class="form-group col-md-12" style="margin: 1px">
+                                        Item: <strong>{{Item.item_referencia1}}</strong> 
+                                    </div>
+                                   
+                                </div>
+                                <div class="row" style="margin: 0px">
+                                    <div class="form-group col-md-12" style="margin: 1px">
+                                        Talla: <strong>{{InfoItemAdicional.talla}}</strong> 
+                                    </div>
+                                </div>
+                                <div class="row" style="margin: 0px">
+                                    <div class="form-group col-md-12" style="margin: 1px">
+                                        Cantidad: <strong>{{CantidadTotalUnidad}}</strong> 
+                                    </div>
+                                </div>
+                                <table class="table">
+                                    <tr>
+                                        <td></td>
+                                        <td>Color</td>
+                                        <td>Proceso</td>
+                                        <td>Cantidad</td>
+                                        <td>Stock</td>
+                                    </tr>
+                                    <tr ng-repeat="extension in ColoresTalla" style="height:5px">
+                                        <td class="test" ng-click="openModalProducto(extension)" style="border: 1px solid #b6b6b6;background:{{extension.rgba}}" 
+                                ng-show="extension.url_imagen=='null'">
+
+                                </td>
+                                <td class="test" ng-click="openModalProducto(extension)" style="border: 1px solid #b6b6b6;background-image:url({{coma}}{{url}}{{extension.url_imagen}}{{coma}});" 
+                                ng-show="extension.url_imagen!='null'">
+                                        </td>
+                                        <td>{{extension.extencionDetalle2ID}}</td>
+                                        <td>{{extension.proceso}}</td>
+                                        <td>
+                                             <div class=" input-group" style="max-width:160px"  >
+                                                <span class="input-group-btn"  ng-click="adicionarCantidadColorUnidad(extension.extencionDetalle2ID,'restar',extension.stock,extension.cantidadextension1)">
+                                                    <button type="button" class="btn btn-default">
+                                                        <span class="glyphicon glyphicon-minus">
+                                                        </span>
+                                                    </button>
+                                                </span>
+                                                <input type="number" step="any" style="min-width:50px" ng-model="extension.cantidad" ng-change="onChangeCantidadColorunidad(extension.extencionDetalle2ID,extension.stock,extension.cantidadextension1)" class="form-control text-center" ng-readonly="readonly" min="0" />
+                                                <span class="input-group-btn"  ng-click="adicionarCantidadColorUnidad(extension.extencionDetalle2ID,'sumar',extension.stock,extension.cantidadextension1)">
+                                                    <button type="button" class="btn btn-default">
+                                                        <span class="glyphicon glyphicon-plus">
+                                                        </span>
+                                                    </button>
+                                                </span>
+                                            </div>
+                                        </td>
+                                        <td>{{extension.stock}}</td>
+                                    </tr>
+                                </table>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-danger antoclose" id="btnCerrarModalCantidadUnidad" ng-click="$scope.onpenModalColoresunidad=false;" style="margin:0px"   data-dismiss="modal">Salir</button>
+                    <button type="button" class="btn btn-success antoclose"  ng-click="agregarColoresTallaUnidad()"  data-dismiss="modal">Confirmar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="ColoresUnidad" data-toggle="modal" data-target="#ColoresUnidadSeleccion"></div>
+         <div id="ColoresMasivoModalMedia" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static" style="overflow-y:auto">
+            <div class="modal-dialog" style="padding-bottom:100px">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="">Asignacion Colores</h4>
+                    </div>
+                    <div class="modal-body" >
+                        <div id="testmodal" style="padding: 0px;">
+                            <form id="antoform" class="form-horizontal calender form-label-left" role="form">
+                                <div class="row" style="margin: 0px">
+                                    <div class="form-group col-md-12" style="margin: 1px">
+                                        Item: <strong>{{Item.item_referencia1}}</strong> 
+                                    </div>
+                                     <div class="form-group col-md-12" style="margin: 1px">
+                                        Cantidad Restante: <strong>{{MediaDocenaCount}}</strong> 
+                                    </div>
+                                </div>
+                                <table class="table">
+                                    <tr>
+                                     <td></td>
+                                        <td>Color</td>
+                                       
+                                        <td>Cantidad</td>
+                                        
+                                    </tr>
+                                    <tr ng-repeat="extension in ColorMasivoMedia">
+                                    <td class="test" ng-click="openModalProducto(extension)" style="border: 1px solid #b6b6b6;background:{{extension.rgba}}" 
+                                ng-show="extension.url_imagen=='null'">
+
+                                </td>
+                                <td class="test" ng-click="openModalProducto(extension)" style="border: 1px solid #b6b6b6;background-image:url({{coma}}{{url}}{{extension.url_imagen}}{{coma}});" 
+                                ng-show="extension.url_imagen!='null'">
+                                        </td>
+                                        <td>{{extension.extencionDetalle2ID}}</td>
+                                        
+                                        <td>
+                                             <div class=" input-group" style="max-width:160px"  >
+                                                <span class="input-group-btn"  ng-click="adicionarCantidadColorM(extension.extencionDetalle2ID,'RESTAR')">
+                                                    <button type="button" class="btn btn-default">
+                                                        <span class="glyphicon glyphicon-minus">
+                                                            
+                                                        </span>
+                                                    </button>
+                                                </span>
+                                                <input type="number" step="any" style="min-width:50px" ng-model="extension.cantidad"  class="form-control text-center" readonly="readonly"  />
+                                                <span class="input-group-btn"  ng-click="adicionarCantidadColorM(extension.extencionDetalle2ID,'SUMAR')">
+                                                    <button type="button" class="btn btn-default">
+                                                        <span class="glyphicon glyphicon-plus">
+                                                        </span>
+                                                    </button>
+                                                </span>
+                                            </div>
+                                        </td>
+                                        
+                                    </tr>
+                                </table>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-danger antoclose" id="ModalMasivoMedia" style="margin:0px" ng-click=""  data-dismiss="modal">Salir</button>
+                    <button type="button" class="btn btn-success antoclose"  ng-click="AgregarColoresMasivoM()"  data-dismiss="modal">Confirmar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="OpenModalColorMedia" data-toggle="modal" data-target="#ColoresMasivoModalMedia"></div>
+        <div id="Modalcolores" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+            <div class="modal-dialog" style="padding-bottom:100px">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="">Detalle Item</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div id="testmodal" style="padding: 0px;">
+                            <form id="antoform" class="form-horizontal calender form-label-left" role="form">
+                                <div class="row" style="margin: 0px">
+                                    <div class="form-group col-md-12" style="margin: 1px">
+                                         <label>
+                                        Item: <strong>{{ItemModal.linea_descripcion}}</strong> 
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin: 0px">
+                                    <div class="form-group col-md-4" style="margin: 1px">
+                                        <label>
+                                        Referencia: <strong>{{ItemModal.item_referencia}}</strong> 
+                                        </label>
+                                    </div>
+                                    <div class="form-group col-md-4" style="margin: 1px">
+                                        <label>
+                                        Empaque: <strong>{{ItemModal.empaque}}</strong> 
+                                        </label>
+                                    </div>
+                                    <div class="form-group col-md-4" style="margin: 1px">
+                                        <label>
+                                        Cantidad: <strong>{{ItemModal.cantidadtotal}}</strong> 
+                                        </label>
+                                    </div>
+                                </div>
+                                <div ng-repeat="item in ItemModal.tallas track by $index" ng-show="item.cantidad>0" >
+
+                                    <strong> Talla : {{item.talla}}</strong>
+                                    <div style="overflow-x:auto;" class="table-resposive" >
+                                    <table class="table table-striped responsive-utilities jambo_table bulk_action">
+                                        <tr>
+                                            <td ng-repeat="color in item.colores track by $index" ng-show="{{color.cantidad>0}}" style="border: 1px solid #b6b6b6;background:{{color.rgba}};" ></td>
+                                        </tr>
+                                        <tr>
+                                            <td ng-repeat="color in item.colores track by $index"  ng-show="{{color.cantidad>0}}">{{color.rowid_erp}} </td>
+                                        </tr>
+                                        <tr>
+                                            <td ng-repeat="color in item.colores track by $indefx"  ng-show="{{color.cantidad>0}}">{{color.cantidad}} </td>
+                                        </tr>
+                                    </table>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-danger antoclose" ng-click="btnCerrarBalanceColores()" id="modalBalanceColores" style="margin:0px"  data-dismiss="modal">Salir</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="ColoresAgregados" data-toggle="modal" data-target="#Modalcolores"></div>
+        <div id="ModalProducto" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+            <div class="modal-dialog" style="padding-bottom:100px">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="">{{ProductoModal.extencionDetalle2ID}}</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div id="testmodal" style="padding: 0px;">
+                            <form id="antoform" class="form-horizontal calender form-label-left" role="form">
+                                <div class="row form-group">
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"></div>
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                    
+                                        <div class="img_pro" style="border: 1px solid #b6b6b6;background-image:url({{coma}}{{url}}{{ProductoModal.url_imagen}}{{coma}});" 
+                                        ng-show="ProductoModal.url_imagen!='null'">
+                                            
+                                        </div>
+                                        <div class="img_pro" style="border: 1px solid #b6b6b6;background:{{ProductoModal.rgba}}" 
+                                ng-show="ProductoModal.url_imagen=='null'">
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"></div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:center">
+                                    <p style="text-align:center">{{Item.producto}}</p>
+                                        
+                                    </div>
+                                </div>
+                                
+                            </form>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-danger antoclose" ng-click="closeModalProducto()" id="btnCerrarModalProducto" style="margin:0px"  data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="OpenModalProducto" data-toggle="modal" data-target="#ModalProducto"></div>
+
+        <div id="AlertaSincronizacion" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+            <div class="modal-dialog" style="padding-bottom:100px">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="">Alerta Sincronizacion</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div id="testmodal" style="padding: 0px;">
+                            <form id="antoform" class="form-horizontal calender form-label-left" role="form">
+                                <div class="row form-group">
+                                    <div class="col-md-12">
+                                         Desea Realizar la Sincronizacion antes Realizar el Pedido? <br>
+                                         Ultima Actualizacion Realizada {{fechaSincronizacion}}
+                                    </div>
+                                </div>
+                                
+                            </form>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-danger antoclose" id="" style="margin:0px"  data-dismiss="modal">No</button>
+                    <button type="button" class="btn btn-success " id="aceptarsincronizacion" ng-click="sincronizar()" style="margin:0px"  data-dismiss="modal">Sincronizar</button>
+                    
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="AlertaSin" data-toggle="modal" data-target="#AlertaSincronizacion"></div>
+</div>

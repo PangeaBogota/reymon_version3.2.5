@@ -1,0 +1,332 @@
+<script type="text/javascript">
+     $('#fecha_inicial').datetimepicker({
+        dayOfWeekStart: 1,
+        lang: 'en',
+        disabledDates: ['1986/01/08', '1986/01/09', '1986/01/10'],
+        startDate:Date.now()
+    });
+     $('#fecha_final').datetimepicker({
+        dayOfWeekStart: 1,
+        lang: 'en',
+        disabledDates: ['1986/01/08', '1986/01/09', '1986/01/10'],
+        startDate:Date.now()
+    });
+</script>
+<div class="ng-cloak" ng-controller="actividadesController" ng-init="RefrescarVista()" >
+
+    <div class="clearfix"></div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>Actividades</h2>
+                    
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <div class="form-group">
+                        <button class="btn btn-primary" ng-click='abrirModal()'>Nueva Actividad</button>
+                    </div>
+                    <div class="calendar"  id="calendar1" ui-calendar="calOptions" ng-model="eventSources" calendar="calendar"></div>
+                    <!-- Start Calender modal -->
+                <div id="CalenderModalNew" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h4 class="modal-title" id="myModalLabel">Nueva Actividad</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div id="testmodal" style="padding: 5px 20px;">
+                                    <form id="antoform" class="form-horizontal calender form-label-left" role="form" novalidate name="formNuevaActividad">
+                                        <div class="row form-group">
+                                            <div class="col-md-12" style="padding: 0px">
+                                                <label class="control-label ">Asunto</label>
+                                            </div>
+                                            
+                                            <div class="col-md-12">
+                                                <input required type="text" autocomplete="off" class="form-control" id="title" name="title" ng-model="NuevoEvento.tema">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-md-12" style="padding: 0px">
+                                                <label class="control-label ">Actividad</label>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <select  required
+                                                    ng-model="NuevoEvento.tipo"  ng-options="partner.tipo_reg_nombre as partner.tipo_reg_nombre 
+                                                    for partner in listActividadTipo " class="form-control  "  >
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class=" form-group">
+                                            <div class="col-md-12" style="padding: 0px">
+                                               <label class="control-label ">Fecha Inicial</label> 
+                                            </div>
+                                            <div class="col-md-12" style="padding: 0px">
+                                                <div class="col-md-12">
+                                                    <input type="date" class="form-control " id="fechaInicial" ng-change="onchangeFecha('Inicial')" required ng-model="horario.fechaInicial"></input>
+                                                    
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <input type="time" class="form-control " required ng-model="horario.horaInicial" ng-change="onchangeFecha('HInicial')"></input>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class=" form-group">
+                                            <div class="col-md-12" style="padding: 0px">
+                                               <label class="control-label ">Fecha Final</label> 
+                                            </div>
+                                            <div class="col-md-12" style="padding: 0px">
+                                                <div class="col-md-12">
+                                                    <input type="date" class="form-control " id="fechaFinal" ng-change="onchangeFecha('Final')" required ng-model="horario.fechaFinal"></input>
+                                                    
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <input type="time" ng-change="onchangeFecha('HFinal')" class="form-control " required ng-model="horario.horaFinal"></input>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-md-12" style="padding: 0px">
+                                               <label class="control-label ">Referencia</label> 
+                                            </div>
+                                            <div class="col-md-12">
+                                                <select 
+                                                    ng-model="NuevoEvento.tipo_relacion" required  ng-options="partner.tipo_reg_nombre as partner.tipo_reg_nombre 
+                                                    for partner in listActividadTipoRelacion " class="form-control col-md-8"   >
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-md-12" style="padding: 0px">
+                                               <label class="control-label ">Tercero</label> 
+                                            </div>
+                                            <div class="col-md-12">
+                                                <input  placeholder="Seleccionar Tercero" type="text" ng-model="Search" class="form-control "></input>
+                                                <select  required 
+                                                    ng-model="terceroSelected" id="TerceroSelected" ng-options="partner as partner.razonsocial 
+                                                    for partner in list_tercero | filter:Search" class="form-control" >
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-md-12" style="padding: 0px">
+                                               <label class="control-label ">Prioridad</label> 
+                                            </div>
+                                            <div class="col-md-12">
+                                                <select 
+                                                    ng-model="NuevoEvento.ind_prioridad"  required ng-options="partner.tipo_reg_nombre as partner.tipo_reg_nombre 
+                                                    for partner in listActividadPrioridad " class="form-control"  >
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-md-12" style="padding: 0px">
+                                               <label class="control-label ">Estado</label> 
+                                            </div>
+                                            <div class="col-md-12">
+                                                <select  required
+                                                    ng-model="NuevoEvento.rowid_estado"  ng-options="partner.id_estado as partner.nombre_estado 
+                                                    for partner in listEstadoActividad " class="form-control"  >
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-md-12" style="padding: 0px">
+                                               <label class="control-label ">Descripcion</label> 
+                                            </div>
+                                            <div class="col-md-12">
+                                                <textarea class="form-control"  required id="descr" name="descr" ng-model="NuevoEvento.descripcion"></textarea>
+                                            </div>
+                                        </div>
+                                        
+                                    </form>
+                                </div>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default antoclose" id="CerrarModalActiviadad"  data-dismiss="modal">Cerrar</button>
+                                <button type="button" class="btn btn-primary " ng-click="guardarActividad()" ng-disabled="formNuevaActividad.$invalid" >Guardar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="CalenderModalViewDay" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h4 class="modal-title" id="myModalLabel2">Actividades del Dia</h4>
+                            </div>
+                            <div class="modal-body" style="padding-top: 0px">
+                                <div id="testmodal2" class="x_content" >
+                                    <form id="antoform3" class="form-horizontal calender form-label-left" role="form">
+                                        <div class="x_content">
+                                            <div class="row " ng-repeat='actividad in actividadesDia' style="padding: 4px" >
+                                                <a >
+                                                    <div ng-show="actividad.condicion" class="row" style="margin: 0px;display:none">
+                                                        <div class="form-group col-md-12" style="margin: 1px">
+                                                            Canal: {{actividad.canal}}
+                                                        </div>
+                                                        
+                                                    </div>
+                                                    <div class="row" style="margin: 0px">
+                                                        <div class="form-group col-md-12" style="margin: 1px;display:none">
+                                                            Usuario: {{actividad.usuario}}
+                                                        </div>
+                                                        
+                                                    </div>
+                                                    <div class="row" style="margin: 0px">
+                                                        <div class="form-group col-md-12" style="margin: 1px">
+                                                            Asunto: {{actividad.tema}}
+                                                        </div>
+                                                        
+                                                    </div>
+                                                    <div class="row" style="margin: 0px">
+                                                        <div class="form-group col-md-12" style="margin: 1px">
+                                                            Cliente: {{actividad.relacionado_a}}
+                                                        </div>
+                                                        
+                                                    </div>
+                                                    <div class="row" style="margin: 0px">
+                                                        <div class="form-group col-md-12" style="margin: 1px">
+                                                            Cliente: {{actividad.ind_prioridad}}
+                                                        </div>
+                                                        
+                                                    </div>
+                                                    <div class="row" style="margin: 0px">
+                                                        <div class="form-group col-md-12" style="margin: 1px">
+                                                            Descripcion :<strong> {{actividad.descripcion}}</strong>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row" style="margin: 0px">
+                                                        
+                                                        <div class="form-group col-md-6" style="margin: 1px">
+                                                            Fecha Inicial:{{actividad.fecha_inicial}}
+                                                        </div>   
+                                                        <div class="form-group col-md-6" style="margin: 1px">
+                                                           Fecha Final :<strong>  {{actividad.fecha_final}}</strong>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                                <div class="separator"></div>
+                                            </div>  
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default antoclose3" data-dismiss="modal">Cerrar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="CalenderModalViewEvent" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h4 class="modal-title" id="myModalLabel2"> Actividad Seleccionada</h4>
+                            </div>
+                            <div class="modal-body">
+
+                                <div id="testmodal2" style="padding: 5px 20px;">
+                                    <form id="antoform2" class="form-horizontal calender form-label-left" role="form">
+
+                                        <div class="x_content">
+                                            <div class="row "  style="padding: 4px" >
+                                                <a >
+                                                    <div class="row" style="margin: 0px">
+                                                        <div class="form-group col-md-6" style="margin: 1px">
+                                                          <label> Fecha Inicial:</label>
+                                                           {{actividad.fecha_inicial}}
+                                                        </div>   
+                                                        <div class="form-group col-md-6" style="margin: 1px">
+                                                          <label> Fecha Final :</label>
+                                                          <strong>  {{actividad.fecha_final}}</strong>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row" style="margin: 0px">
+                                                        <div class="form-group col-md-12" style="margin: 1px">
+                                                            <label>Asunto:</label> 
+                                                        </div>
+                                                        <div class="form-group col-md-12" style="margin: 1px">
+                                                            <input type="text" ng-model="actividad.tema" class="form-control">
+                                                        </div>
+                                                        
+                                                    </div>
+                                                    <div class="row" style="margin: 0px">
+                                                        <div class="form-group col-md-12" style="margin: 1px">
+                                                          <label> Cliente: </label>
+                                                           <input  placeholder="Seleccionar Tercero" type="text" ng-model="Search1" class="form-control "></input>
+                                                        </div>
+                                                        <div class="form-group col-md-12" style="margin: 1px">
+                                                            <select  required 
+                                                                ng-model="actividad.relacionado_a" id="TerceroSelected" ng-options="partner.razonsocial as partner.razonsocial 
+                                                                for partner in list_tercero | filter:Search1" class="form-control" >
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row" style="margin: 0px">
+                                                        <div class="form-group col-md-12" style="margin: 1px">
+                                                          <label> Prioridad :</label>
+                                                        </select>
+                                                        </div>
+                                                        <div class="form-group col-md-12" style="margin: 1px">
+                                                          <select 
+                                                            ng-model="actividad.ind_prioridad"  required ng-options="partner.tipo_reg_nombre as partner.tipo_reg_nombre 
+                                                            for partner in listActividadPrioridad " class="form-control"  >
+                                                        </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row" style="margin: 0px">
+                                                        <div class="form-group col-md-12" style="margin: 1px">
+                                                          <label> Descripcion :</label>
+                                                        </div>
+                                                        <div class="form-group col-md-12" style="margin: 1px">
+                                                          <textarea class="form-control"  required id="descr" name="descr" ng-model="actividad.descripcion"></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row" style="margin: 0px">
+                                                        <div class="form-group col-md-12" style="margin: 1px">
+                                                          <label> Estado :</label>
+                                                        </div>
+                                                        <div class="form-group col-md-12" style="margin: 1px">
+                                                           <select  required
+                                                                ng-model="actividad.rowid_estado"  ng-options="partner.id_estado as partner.nombre_estado 
+                                                                for partner in listEstadoActividad " class="form-control"  >
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                </a>
+                                            </div>  
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" id="closemodalact" class="btn btn-default antoclose2" data-dismiss="modal">Cerrar</button>
+                                <button type="button" class="btn btn-success" ng-click="ActualizarActividad()">Actualizar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="fc_create" data-toggle="modal" data-target="#CalenderModalNew"></div>
+                <div id="fc_ViewEvent" data-toggle="modal" data-target="#CalenderModalViewEvent"></div>
+                <div id="fc_View" data-toggle="modal" data-target="#CalenderModalViewDay"></div>
+
+                <!-- End Calender modal -->
+                <!-- /page content -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

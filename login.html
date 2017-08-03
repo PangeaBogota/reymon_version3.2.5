@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title> </title>
+    
+    <!-- Bootstrap core CSS -->
+
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="fonts/css/font-awesome.min.css" rel="stylesheet">
+    <link href="css/animate.min.css" rel="stylesheet">
+
+    <!-- Custom styling plus plugins -->
+    <link href="css/custom.css" rel="stylesheet">
+    <link href="css/icheck/flat/green.css" rel="stylesheet">
+    <script type="text/javascript" src="cssjs/jquery-1.12.3.js"></script>
+    <script type="text/javascript" src="cssjs/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/constantes.js"></script>
+    <!-- Noty -->
+    <script type="text/javascript" src="cssjs/noty/jquery.noty.js"></script>
+    <script type="text/javascript" src="cssjs/noty/layouts/top.js"></script>
+    <script type="text/javascript" src="cssjs/noty/layouts/topCenter.js"></script>
+    <script type="text/javascript" src="cssjs/noty/layouts/topLeft.js"></script>
+    <script type="text/javascript" src="cssjs/noty/layouts/topRight.js"></script>
+    <script type="text/javascript" src="cssjs/noty/layouts/inline.js"></script>
+    <script type="text/javascript" src="cssjs/noty/layouts/centerRight.js"></script>
+    <script type="text/javascript" src="cssjs/noty/layouts/centerLeft.js"></script>
+    <script type="text/javascript" src="cssjs/noty/layouts/center.js"></script>
+    <script type="text/javascript" src="cssjs/noty/layouts/bottomRight.js"></script>
+    <script type="text/javascript" src="cssjs/noty/layouts/bottomLeft.js"></script>
+    <script type="text/javascript" src="cssjs/noty/layouts/bottomCenter.js"></script>
+    <script type="text/javascript" src="cssjs/noty/layouts/bottom.js"></script>
+    <script type="text/javascript" src="cssjs/noty/themes/default.js"></script>
+    
+    
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            localStorage.removeItem('CUR_USER');
+        });
+        $(window).load(function () {
+            $("#DivLoadingPage").fadeOut("slow");
+        });
+        // Muestra Modal Procesando
+        function ProcesadoShow() {
+            $("#ModalProcessing").modal()                       // initialized with defaults
+            $("#ModalProcessing").modal({backdrop: 'static', keyboard: false})   // initialized with no keyboard
+            $("#ModalProcessing").modal('show')
+        }
+
+        // Oculta Modal de procesando
+        function ProcesadoHiden() {
+            $("#ModalProcessing").modal('hide');
+        }
+
+
+        function Mensajes(text, type, layot) {
+            if (layot == '' || layot == null)
+                layot = 'bottomRight';
+
+            var self = $(this);
+            noty({
+                text: text,
+                type: type,
+                theme: 'defaultTheme',
+                layout: layot,
+                timeout: 5000,
+                modal: self.data('modal')
+            });
+            return false;
+        }
+        function Sincronizar(){
+
+            for(var i=0; i < STEP_SINCRONIZACION.length; i++)
+                {
+                    $.ajax({
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    type: 'get',
+                    url: 'http://demos.pedidosonline.co/Mobile/Instalacion?step=2&username=' + $("#username").val() + '&codigo_empresa=' + $("#codigo_empresa").val() + '&entidad=' + STEP_SINCRONIZACION[i],
+                    crossDomain: true,
+                    async: false,
+                    success: function (data) {
+
+                        //  if(data.message=='OK') {
+
+                            //alert('Sincronizar '+STEP_SINCRONIZACION[i].toString());
+
+                            localStorage.removeItem(STEP_SINCRONIZACION[i].toString());
+                            localStorage.setItem(STEP_SINCRONIZACION[i].toString(), JSON.stringify(data));
+                        /*}
+                        else{
+
+                            alert('Error Sincronizar '+STEP_SINCRONIZACION[i].toString());
+                            //Mensajes(data.message,'error','');
+                        }*/
+
+                    }/*,
+                    error: function (request,a,b) {
+                        alert('Error Sincronizar '+STEP_SINCRONIZACION[i].toString()+' '+request+' | '+ a+ ' | '+b);
+                        //debugger;
+                        //alert(request.responseJSON);
+                    }*/
+                });
+            }
+        }
+        function Login(){
+
+            $("#form_login").submit(function(e){
+                e.preventDefault();
+            });
+
+
+            if($("#username").val()=='') {
+                Mensajes('Ingresar nombre de usuario.', 'error', '');
+                return;
+            }
+
+            if($("#codigo_empresa").val()=='') {
+                Mensajes('Ingresar codigo de la empresa.', 'error', '');
+                return;
+            }
+
+            if($("#password").val()=='') {
+                Mensajes('Ingresar clave.', 'error', '');
+                return;
+            }
+
+            ProcesadoShow();
+
+            //alert('Login 1');
+
+            $.ajax({
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                type: 'get',
+                url: SERVIDOR_LOGIN+'username='+$("#username").val()+'&codigo_empresa='+$("#codigo_empresa").val()+'&pass='+$("#password").val(),
+                crossDomain: true,
+                //async: false,
+                success: function (data) {
+
+                    //alert('Login success');
+
+                    if(data.message=='OK') {
+                        
+                        //alert('Login OK');
+
+                        localStorage.removeItem('CUR_USER');
+                        localStorage.setItem('CUR_USER', JSON.stringify(data.data));
+                        
+
+                        ProcesadoHiden();
+                        Mensajes('Bienvenido', 'success', '');
+                        location.href = 'index.html';
+                    }
+                    else{
+                        //alert('Login <> OK');
+                        ProcesadoHiden();
+                        Mensajes(data.message,'error','');
+                    }
+                },
+                error:function(err){
+                    ProcesadoHiden();
+                    Mensajes("Verificar Conexion",'error','');
+                }/*,
+                error: function (request,a,b) {
+                    ProcesadoHiden();
+                    alert('Error Login  '+JSON.stringify(request)+' | '+ a+ ' | '+b);
+                }*/
+            });
+        }
+
+    </script>
+
+</head>
+
+<body style="background:#F7F7F7;">
+    
+    <div class="">
+        <a class="hiddenanchor" id="toregister"></a>
+        <a class="hiddenanchor" id="tologin"></a>
+
+        <div id="wrapper">
+            <div id="login" class="animate form">
+                <section class="login_content">
+                    <form>
+                        <h1>Pedidos Online</h1>
+                        <div>
+                            <input id="username" type="text" class="form-control" placeholder="Usuario" required="" />
+                        </div>
+                        <div>
+                            <input id="codigo_empresa" type="number" class="form-control" placeholder="Codigo Empresa" required="" />
+                        </div>
+                        </br>
+                        <div>
+                            <input id="password" type="password" class="form-control" placeholder="Contraseña" required="" />
+                        </div>
+                        <div>
+                            <a id="form_login" class="btn btn-default submit" href="javascript:Login()">Iniciar Sesion</a>
+
+                        </a>
+                            
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="separator">
+                            <div class="clearfix"></div>
+                            <br />
+                            <div>
+                                <h1><i class="fa fa-mobile" style="font-size: 26px;"></i> Pedidos Online </h1>
+
+                                <p>©2017 Todos los Derechos Reservados.  </p>
+                                <p>
+                                    Powered Group Pangea. Version 2.3.3
+                                </p>
+                            </div>
+                        </div>
+                    </form>
+                    <!-- form -->
+                </section>
+                <!-- content -->
+            </div>
+            
+        </div>
+    </div>
+    <div id="DivLoadingPage"></div>
+    <div class="modal fade" data-backdrop="static" data-keyboard="false" id="ModalProcessing"
+         style="overflow:hidden; text-align:center;">
+        <img src="images/loading.gif" alt="Loading"
+             style="display: block;margin-left: auto; margin-right: auto; margin-top: 250px;">
+    </div>
+</body>
+
+</html>

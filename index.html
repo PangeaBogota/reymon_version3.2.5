@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="PedidosOnline">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<title></title>
+
+	<!-- Bootstrap core CSS -->
+<!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="fonts/css/font-awesome.min.css" rel="stylesheet">
+    <link href="css/animate.min.css" rel="stylesheet">
+
+    <!-- Custom styling plus plugins -->
+    <link href="css/custom.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/maps/jquery-jvectormap-2.0.1.css" />
+    <link href="css/icheck/flat/green.css" rel="stylesheet">
+    <link href="css/floatexamples.css" rel="stylesheet" />
+<!-- Custom styling plus plugins -->
+    <link href="css/icheck/flat/green.css" rel="stylesheet">
+    <!-- editor -->
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css" rel="stylesheet">
+    <link href="css/editor/external/google-code-prettify/prettify.css" rel="stylesheet">
+    <link href="css/editor/index.css" rel="stylesheet">
+    <!-- select2 -->
+    <link href="css/select/select2.min.css" rel="stylesheet">
+
+    <!-- colorpicker -->
+    <link href="css/colorpicker/bootstrap-colorpicker.min.css" rel="stylesheet">
+    <!-- Custom styling plus plugins -->
+    <link href="css/custom.css" rel="stylesheet">
+    <link href="css/icheck/flat/green.css" rel="stylesheet">
+    <!-- ion_range -->
+    <link rel="stylesheet" href="css/normalize.css" />
+    <link rel="stylesheet" href="css/ion.rangeSlider.css" />
+    <link rel="stylesheet" href="css/ion.rangeSlider.skinFlat.css" />
+    <link href="css/calendar/fullcalendar.css" rel="stylesheet">
+    <link href="css/calendar/fullcalendar.print.css" rel="stylesheet" media="print">
+    <!-- switchery -->
+    <link rel="stylesheet" href="css/switchery/switchery.min.css" />
+
+    <!-- JS -->
+    
+
+    <script src="cssjs/jquery.min.js"></script>
+    <script src="cssjs/bootstrap.min.js"></script>
+    <script src="cssjs/nicescroll/jquery.nicescroll.min.js"></script>
+    <link href="cssjs/datetimepicker/jquery.datetimepicker.css" rel="stylesheet" />
+    <script src="cssjs/datetimepicker/jquery.datetimepicker.full.min.js"></script>
+    <!-- chart js -->
+    <script src="cssjs/chartjs/chart.min.js"></script>
+    <!-- bootstrap progress js -->
+    <script src="cssjs/progressbar/bootstrap-progressbar.min.js"></script>
+    <!-- icheck -->
+    <script src="cssjs/icheck/icheck.min.js"></script>
+    <!-- daterangepicker -->
+    <script type="text/javascript" src="cssjs/moment.min2.js"></script>
+    <script type="text/javascript" src="cssjs/datepicker/daterangepicker.js"></script>
+    
+    
+    <!-- sparkline -->
+    <script src="cssjs/sparkline/jquery.sparkline.min.js"></script>
+
+    <script src="cssjs/custom.js"></script>
+    <!-- skycons -->
+    <script src="cssjs/skycons/skycons.js"></script>
+    <!-- richtext editor -->
+        <script src="cssjs/editor/bootstrap-wysiwyg.js"></script>
+        <script src="cssjs/editor/external/jquery.hotkeys.js"></script>
+        <script src="cssjs/editor/external/google-code-prettify/prettify.js"></script>
+
+
+    <!-- flot js -->
+    <!--[if lte IE 8]><script type="text/javascript" src="js/excanvas.min.js"></script><![endif]-->
+    <script type="text/javascript" src="cssjs/flot/jquery.flot.js"></script>
+    <script type="text/javascript" src="cssjs/flot/jquery.flot.pie.js"></script>
+    <script type="text/javascript" src="cssjs/flot/jquery.flot.orderBars.js"></script>
+    <script type="text/javascript" src="cssjs/flot/jquery.flot.time.min.js"></script>
+    <script type="text/javascript" src="cssjs/flot/date.js"></script>
+    <script type="text/javascript" src="cssjs/flot/jquery.flot.spline.js"></script>
+    <script type="text/javascript" src="cssjs/flot/jquery.flot.stack.js"></script>
+    <script type="text/javascript" src="cssjs/flot/curvedLines.js"></script>
+    <script type="text/javascript" src="cssjs/flot/jquery.flot.resize.js"></script>
+
+    <script type="text/javascript" src="libs/jquery.vibrate.min.js"></script>
+<!-- select2 -->
+    <script src="cssjs/select/select2.full.js"></script>
+    <!-- form validation -->
+    <script type="text/javascript" src="cssjs/parsley/parsley.min.js"></script>
+    <!-- textarea resize -->
+    <script src="cssjs/textarea/autosize.min.js"></script>
+    <script>
+        autosize($('.resizable_textarea'));
+    </script>
+    <!-- Noty -->
+    <script type="text/javascript" src="cssjs/noty/jquery.noty.js"></script>
+    <script type="text/javascript" src="cssjs/noty/layouts/top.js"></script>
+    <script type="text/javascript" src="cssjs/noty/layouts/topCenter.js"></script>
+    <script type="text/javascript" src="cssjs/noty/layouts/topLeft.js"></script>
+    <script type="text/javascript" src="cssjs/noty/layouts/topRight.js"></script>
+    <script type="text/javascript" src="cssjs/noty/layouts/inline.js"></script>
+    <script type="text/javascript" src="cssjs/noty/layouts/centerRight.js"></script>
+    <script type="text/javascript" src="cssjs/noty/layouts/centerLeft.js"></script>
+    <script type="text/javascript" src="cssjs/noty/layouts/center.js"></script>
+    <script type="text/javascript" src="cssjs/noty/layouts/bottomRight.js"></script>
+    <script type="text/javascript" src="cssjs/noty/layouts/bottomLeft.js"></script>
+    <script type="text/javascript" src="cssjs/noty/layouts/bottomCenter.js"></script>
+    <script type="text/javascript" src="cssjs/noty/layouts/bottom.js"></script>
+    <script type="text/javascript" src="cssjs/noty/themes/default.js"></script>
+    <script src="cssjs/nprogress.js"></script>
+
+    <script src="cssjs/moment.min.js"></script>
+    <script src="cssjs/calendar/fullcalendar.min.js"></script>
+     <!-- form wizard -->
+    <script type="text/javascript" src="cssjs/wizard/jquery.smartWizard.js"></script>
+	<!-- PEDIDOS ONLINE  ANGULARJS -->
+    <script type="text/javascript" src="js/constantes.js"></script>
+
+    
+    <script src="libs/ajax-angularjs.js"></script>
+    <script src="js/angular-round-progress-directive.js"></script>
+    <script type="text/javascript" src="libs/bootbox.min.js"></script>
+    <script type="text/javascript" src="libs/angular-bootbox.js"></script>
+    <script type="text/javascript" src="libs/angular-chart.js"></script>
+    <script type="text/javascript"></script>
+    <script type="text/javascript" src="libs/autocomplete/jquery.autocomplete.js"></script>
+
+    <script src="libs/calendar.js"></script>
+    <script type="text/javascript" src="libs/angular-resource.min.js"></script>
+    <script type="text/javascript" src="libs/angular-route.min.js"></script>
+    <script type="text/javascript" src="libs/angular-websql.min.js"></script>
+
+    <script type="text/javascript" src="js/app.js"></script>
+    <script type="text/javascript" src="js/directivas.js"></script>
+    <script type="text/javascript" src="js/DiasFestivos.js"></script>
+
+    <script type="text/javascript" src="js/chain.js"></script>
+    <!-- Model JS -->
+    <script type="text/javascript" src="model/database.js"></script>
+    
+    <script type="text/javascript" src="model/crud.js"></script>
+    <!-- Controladores JS -->
+    <script type="text/javascript" src="controller/erp_tercerosController.js"></script>
+    <script type="text/javascript" src="controller/crm_actividades.js"></script>
+    <style type="text/css">
+        input[type=number]::-webkit-outer-spin-button,
+        input[type=number]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+    </style>
+    <style>
+        #myProgress {
+          width: 100%;
+          background-color: #ddd;
+          margin-top: 3%;
+          position: absolute;
+          z-index: 100;
+        }
+
+        #myBar {
+          width: 1%;
+          height: 30px;
+          background-color: #2fc296;
+          position: absolute;
+
+          z-index: -1;
+        }
+        #porcentaje{
+            position:absolute;
+            top: 30%;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            color: black;
+
+        }
+</style>
+    <script type="text/javascript" src="controller/ventasController.js"></script>
+    <script type="text/javascript" src="controller/pedidosIngresadosController.js"></script>
+    <script type="text/javascript" src="controller/configuracionController.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".itemNav").on("click", function () {
+                console.log('entro')
+                $('#mainbody').removeClass('nav-sm');
+                $('#mainbody').addClass('nav-md');
+                $('#mainbody').removeClass('nav-sm');
+            });
+
+        });
+        $(window).load(function () {
+            $("#DivLoadingPage").fadeOut("slow");
+        });
+
+        // Muestra Modal Procesando
+        function ProcesadoShow() {
+            $("#ModalProcessing").modal()                       // initialized with defaults
+            $("#ModalProcessing").modal({backdrop: 'static', keyboard: false})   // initialized with no keyboard
+            $("#ModalProcessing").modal('show')
+        }
+        function SubirDatos(usuario,entidad,objeto,codigo_empresa){
+            $.ajax({
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                type: 'get',
+                url: 'http://demos.pedidosonline.co/Mobile/SubirDatos?usuario='+usuario+'&entidad='+entidad+'&codigo_empresa=' + codigo_empresa + '&datos=' + JSON.stringify(objeto),
+                crossDomain: true,
+                async: false,
+                success: function (data) {
+                }
+            });
+        }
+        
+
+
+
+        // Oculta Modal de procesando
+        function ProcesadoHiden() {
+            $("#ModalProcessing").modal('hide');
+        }
+        
+        // Genera Los Mensajes de Alertas
+        function Mensajes(text, type, layot) {
+            $.noty.clearQueue(); // Clears the notification queue
+            $.noty.closeAll();
+            if (layot == '' || layot == null)
+                layot = 'bottomRight';
+
+            var self = $(this);
+            noty({
+                text: text,
+                type: type,
+                dismissQueue: true,
+                progressBar: true,
+                theme: 'defaultTheme',
+                layout: 'topRight',
+                timeout: 10000,
+                closeWith: ['click'],
+                maxVisible: 10,
+                modal: self.data('modal')
+            });
+            return false;
+        }
+
+        // Genera Alertas con estilo de la plantilla
+        function MostrarAlerta(msj) {
+            bootbox.alert(msj, function () {
+                console.log("Alert Callback");
+            });
+        }
+
+        // Genera mensajes de confirmacion con el estilo de la plantilla
+        function confirmar(msj) {
+            bootbox.confirm(msj, function (confirmed) {
+                //console.log("Confirmed: " + confirmed);
+                return confirmed;
+            });
+        }
+        
+
+        function Sincronizar(username,codigo_empresa){
+            ProcesadoShow();
+            for(var i=0; i < STEP_SINCRONIZACION.length; i++)
+            {
+
+                $.ajax({
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                type: 'get',
+                url: SERVIDOR_INSTALACION+'step=2&username='+username+'&codigo_empresa=' + codigo_empresa+ '&entidad=' + STEP_SINCRONIZACION[i],
+                timeout:OFFSET,
+                crossDomain: true,
+                async: false,
+                success: function (data) {
+                        DATOS_ENTIDADES_SINCRONIZACION[i]=STEP_SINCRONIZACION[i].toString();
+                        DATOS_ENTIDADES_SINCRONIZACION[i] = data;
+                },
+                error:function(err){
+                    CONSTATE_SYNCT=1
+                    //Mensajes("Error Conexion! Verificar Conexion.Sincronizar nuevamente","error","");
+                }
+                });
+            }
+        }
+        
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#single_cal1').daterangepicker({
+                singleDatePicker: true,
+                calender_style: "picker_1"
+            }, function (start, end, label) {
+                console.log(start.toISOString(), end.toISOString(), label);
+            });
+            $('#single_cal2').daterangepicker({
+                singleDatePicker: true,
+                calender_style: "picker_2"
+            }, function (start, end, label) {
+                console.log(start.toISOString(), end.toISOString(), label);
+            });
+            $('#single_cal3').daterangepicker({
+                singleDatePicker: true,
+                calender_style: "picker_3"
+            }, function (start, end, label) {
+                console.log(start.toISOString(), end.toISOString(), label);
+            });
+            $('#single_cal4').daterangepicker({
+                singleDatePicker: true,
+                calender_style: "picker_4"
+            }, function (start, end, label) {
+                console.log(start.toISOString(), end.toISOString(), label);
+            });
+        });
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#reservation').daterangepicker(null, function (start, end, label) {
+                console.log(start.toISOString(), end.toISOString(), label);
+            });
+           
+        });
+    </script>
+</head>
+<body id="mainbody" class="nav-md" ng-cloak>
+	<div class="container body" >
+		<div class="main_container">
+            <div id="Navegador">
+                <div  class="col-md-3 left_col">
+                <div class="left_col scroll-view">
+                    <div class="navbar nav_title" style="border: 0;">
+                        <a href="index.html#/" class="site_title itemNav"><i class="fa fa-dashboard"></i> <span>Pedidos Online</span></a>
+                    </div>
+                    <div class="clearfix"></div>
+                    <br />
+                    <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+                        <div class="menu_section">
+                            <ul class="nav side-menu right hide-on-med-and-down  ">
+                                <li class="itemNav"><a  href="index.html#/"><i class="fa fa-home "></i> Home <span class="fa fa-chevron-down"></span></a>
+                                </li>
+                                <li ><a><i class="fa fa-shopping-cart"></i> Pedidos <span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu" style="display: none">
+                                        <li class="itemNav"><a href="#/ventas/pedido_nuevo" >Nuevo</a>
+                                        </li>
+                                        <li class="itemNav"><a href="#/ventas/pedidos_ingresados" >Pedidos Ingresados</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="itemNav"><a href="#/crm/calendario"><i class="fa fa-calendar"></i> Actividades <span class="fa fa-chevron-down"></span></a>
+                                </li>
+                                <li class="itemNav"><a href="#/crm/terceros"><i class="fa fa-user"></i> Clientes <span class="fa fa-chevron-down"></span></a>
+                                </li>
+                                <li class="itemNav"><a href="#/configuracion/sincronizacion"><i class="fa fa-cogs"></i> Configuracion <span class="fa fa-chevron-down"></span></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="sidebar-footer hidden-small">
+                        <a data-toggle="tooltip" data-placement="top" title="Settings">
+                            <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                        </a>
+                        <a data-toggle="tooltip" data-placement="top" title="FullScreen">
+                            <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
+                        </a>
+                        <a data-toggle="tooltip" data-placement="top" title="Lock">
+                            <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
+                        </a>
+                        <a data-toggle="tooltip" data-placement="top" title="Logout">
+                            <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            </div>
+			<div class="top_nav" >
+                <div ng-controller="sessionController">
+                    <div id="modalConfirmacion" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                    <h4 class="modal-title" id="myModalLabel">{{alerta.header}}</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div id="testmodal" style="padding: 0px;">
+                                        <form id="antoform" class="form-horizontal calender form-label-left" role="form">
+                                            <div class="row form-group">
+                                                <div class="col-md-12">
+                                                     {{alerta.message}}
+                                                </div>
+                                            </div>
+                                            
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="modal-footer" >
+                                    <button type="button" class="btn btn-danger antoclose" data-dismiss="modal" style="margin:5px"  >Cancelar</button>
+                                    <button type="button" ng-show="status.connextionstate" class="btn btn-primary antoclose " ng-click="sincronizar()" data-dismiss="modal" style="margin:5px" >Aceptar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="openConfirmacion" data-toggle="modal" data-target="#modalConfirmacion"></div>
+                     <div id="modalCerrarSesion" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                    <h4 class="modal-title" id="myModalLabel">Confirmacion Cierre Sesion</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div id="testmodal" style="padding: 0px;">
+                                        <form id="antoform" class="form-horizontal calender form-label-left" role="form">
+                                            <div class="row form-group">
+                                                <div class="col-md-12">
+                                                     Desea Cerrar Sesion
+                                                </div>
+                                            </div>
+                                            
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="modal-footer" >
+                                    <button type="button" class="btn btn-danger antoclose" data-dismiss="modal" style="margin:5px"  >Permanecer</button>
+                                    <button type="button"  class="btn btn-primary antoclose " ng-click="confimarCerrarSion()" data-dismiss="modal" style="margin:5px" >Cerrar Sesion</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="openModalLogOut" data-toggle="modal" data-target="#modalCerrarSesion"></div>
+                    <div class="nav_menu">
+                        <nav class="" role="navigation">
+
+                            <div class="nav toggle">
+                                <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+                            </div>
+                            
+                            
+                            <ul class="nav navbar-nav navbar-right">
+                                
+                                <li >
+                                    <a class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                        <span class="fa fa-user"></span> Hola,&nbsp;{{nombreUsuario}}  <span class="fa fa-angle-down"></span>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-usermenu animated fadeInDown pull-right">
+                                        <li>
+                                            
+                                        </li>
+                                        <li><a ng-click="cerrarsesion()"><i class="fa fa-sign-out pull-right"></i>Cerrar Sesion</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li >
+                                    <a  ng-click="confirmarSincronizacion()" id="sincronizarID" ><i style="font-size:1.5em"  class="fa fa-download"></i>
+                                                <span>Bajar</span>
+                                            </a>
+                                </li>
+                                <li ng-show="procesoSincronizacion" >
+                                        <a id=""  ><i style="font-size:1.5em"  class="fa fa-upload"></i>
+                                        <span>Subiendo...</span></a>   
+                                </li>
+                                <!--<li >
+                                        <a id="subirID"   ng-click="executeSync()"><i style="font-size:1.5em"  class="fa fa-upload"></i>
+                                        <span>Subir</span></a>   
+                                </li>-->
+                                <li id="progreso">
+                                        <div ang:round:progress data-round-progress-model="roundProgressData"
+                                                                data-round-progress-width="50"
+                                                                data-round-progress-height="50"
+                                                                data-round-progress-outer-circle-width="9"
+                                                                data-round-progress-inner-circle-width="3"
+                                                                data-round-progress-outer-circle-radius="17"
+                                                                data-round-progress-inner-circle-radius="17"
+                                                                data-round-progress-label-font="9pt Arial"
+                                                                data-round-progress-outer-circle-background-color="#505769"
+                                                                data-round-progress-outer-circle-foreground-color="#12eeb9"
+                                                                data-round-progress-inner-circle-color="#505769"
+                                                                data-round-progress-label-color="#505769"></div>
+                                </li>
+                            </ul>      
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <!-- /top navigation -->
+            <!-- page content -->
+            <div class="right_col" role="main">
+                <div ng-controller="menuController">
+                    <br />
+                    <div class="">
+                        <ng-view>
+                        </ng-view>
+                    </div>
+                    <div id="DivLoadingPage"></div>
+                    <div class="modal fade" data-backdrop="static" data-keyboard="false" id="ModalProcessing"
+                         style="overflow:hidden; text-align:center;">
+                        <img src="images/loading.gif" alt="Loading"
+                             style="display: block;margin-left: auto; margin-right: auto; margin-top: 250px;">
+                    </div>
+                </div>
+                <!-- footer content -->
+                <div class="form-group row">
+                  <p class="form-label pull-right" style="padding-right:20px">Powered By PedidosOnline. Version 2.3.3  </p>  
+                </div>
+                </br>
+                </br>
+                </br>
+                </br>
+                </br>
+                </br>
+                </br>
+                </br>
+                </br>
+                </br>
+                </br>
+                </br>
+                <!-- /footer content -->
+            </div>
+            <!-- /page content -->
+            
+
+		</div>
+	</div>
+
+</body>
+</html>

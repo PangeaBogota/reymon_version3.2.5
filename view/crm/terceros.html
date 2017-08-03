@@ -1,0 +1,154 @@
+<script type="text/javascript">
+        $(document).ready(function () {
+            // Smart Wizard     
+            $('#wizard').smartWizard();
+
+            function onFinishCallback() {
+                $('#wizard').smartWizard('showMessage', 'Finish Clicked');
+                //alert('Finish Clicked');
+            }
+        });
+
+    </script>
+
+<div   ng-controller='TercerosController'>
+    <div >
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>Clientes </h2>
+                
+                <div class="clearfix"></div>
+            </div>
+                <br />
+                <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
+                    <div class="x_content">
+                        <div class="wizard_content" id="">
+                            <div class="form-group">
+                                <label class="form-label">Cliente</label>
+                                <input ng-model='search' class="form-control" ></input>
+                            </div>
+                            <div class="form-group col-md-12 col-xs-12" ng-repeat="terceros in terceros | filter:search" ng-click="abrirModal(terceros)">
+                                <div >
+                                    Nit :  <strong>{{terceros.identificacion}}</strong>
+                                </div>
+                                <div>
+                                    Razon Social : <strong>{{terceros.razonsocial}}</strong>
+                                </div>
+                                <div class="separator"></div>
+                            </div>   
+                        </div>
+                    </div>
+                </form>
+        </div>
+    </div>
+    <div id="terceroDetalle" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="myModalLabel">Informacion Cliente</h4>
+                </div>
+                <div class="modal-body">
+                    <div id="testmodal" style="padding: 0px;">
+                        <form id="antoform" class="form-horizontal calender form-label-left" role="form">
+                            <div class="row" style="margin-left: 10px">
+                                <a class="btn btn-success" href="#/crm/calendario/{{terceroSeleccionado.rowid}}">Actividad</a>
+                                <a class="btn btn-success" href="#/ventas/pedido_nuevo">Pedido</a>
+                            </div>
+                            <div class="row " style="margin: 0px">
+                                <div class="form-group col-md-4 col-xs-12" style="margin: 1px">
+                                    Razon Social : <strong>{{terceroSeleccionado.razonsocial}}</strong>
+                                </div> 
+                            </div>
+                            
+                            <div class="row" style="margin: 0px">
+                                <div class="form-group col-md-12" style="margin: 1px">
+                                    Documento : <strong>{{terceroSeleccionado.identificacion}}</strong> 
+                                </div>
+                            </div>
+                            <div class="row" style="margin: 0px">
+                                <div class="form-group col-md-12" style="margin: 1px">
+                                    Telefono : <a href="tel:+{{terceroSeleccionado.telefono}}"><strong>{{terceroSeleccionado.telefono}}</strong> </a>
+                                </div>
+                            </div>
+                            <div class="row" style="margin: 0px">
+                                <a href="http://maps.google.com/?q={{terceroSeleccionado.direccion}}">
+                                   <div class="form-group col-md-12" style="margin: 1px">
+                                    Direccion : <strong>{{terceroSeleccionado.direccion}}</strong> 
+                                    </div>  
+                                </a>
+                               
+                            </div>
+                            <h3>Informacion Contacto</h3>
+                            <div class="row" style="margin: 0px">
+                                <div class="form-group col-md-12 col-xs-12" style="margin: 1px">
+                                    Nombre :<strong> {{terceroSeleccionado.contacto}}</strong>
+                                </div>
+                            </div>
+                            <div class="row" style="margin: 0px">
+                                <div class="form-group col-md-6 col-xs-12" style="margin: 1px">
+                                    Correo :<a href="mailto:{{terceroSeleccionado.email}}"><strong> {{terceroSeleccionado.email}}
+                                    </strong>
+                                    </a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default antoclose" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="terceroEmail" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="myModalLabel">Enviar Correo</h4>
+                </div>
+                <div class="modal-body">
+                    <div id="testmodal" style="padding: 0px;">
+                        <form id="antoform" class="form-horizontal calender form-label-left" role="form">
+                            <div class="row form-group">
+                                <div class="col-md-3 col-sm-3 col-xs-4" style="padding: 0px">
+                                    <label class="control-label ">Para:</label>
+                                </div>
+                                
+                                <div class="col-sm-9">
+                                    <strong> {{terceroDetalles.email}}</strong>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-md-4 col-sm-3 " style="padding: 0px">
+                                    <label class="control-label ">Asunto:</label>
+                                </div>
+                                
+                                <div class="col-sm-8 col-md-12 col-xs-12">
+                                    <input class="form-control" ng-model="correoDescripcion.asunto"></input>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-md-4 col-sm-3 " style="padding: 0px">
+                                    <label class="control-label ">Descripcion:</label>
+                                </div>
+                                
+                                <div class="col-sm-8 col-md-12 col-xs-12">
+                                    <textarea class="form-control" ng-model="correoDescripcion.body"></textarea>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default antoclose" data-dismiss="modal"  >Cerrar</button>
+                    <button type="button" class="btn btn-success antoclose" data-dismiss="modal"  ng-click="enviarCorreo()">Enviar Correo</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="terceroOpenModalEmail" data-toggle="modal" data-target="#terceroEmail"></div>
+    <div id="terceroOpenModal" data-toggle="modal" data-target="#terceroDetalle"></div>
+</div>

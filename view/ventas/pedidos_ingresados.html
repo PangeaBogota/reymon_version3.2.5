@@ -1,0 +1,344 @@
+<div ng-controller='PedidosController'>
+    <div class="page-title">
+    <div class="title_left">
+        <h3 style="width: 300px">Pedidos Ingresados</h3>
+    </div>
+    
+    </div>
+    <div class="clearfix"></div>
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_content x_panel" style="margin: 0px">
+                    <br />
+                    <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
+                            <div ng-show="validacion"><h3>“No hay pedidos Ingresados por este usuario” </h3></div>
+                            <div ng-hide="validacion">
+                                <input type="text" ng-model="filtro"  class="form-control" name="" placeholder="Filtro">
+                            </div>
+                            <div class="x_content" ng-repeat='pedidos in pedidos  | filter:filtro' style="padding: 0px" >
+                                <span >
+                                    <div class="row" style="margin:1px">
+                                        <div class="col-md-2">
+                                            <a class="btn btn-success btn-sm" href="#/ventas/pedido_nuevo/Pedido={{pedidos.rowidpedido}}"  ng-show="pedidos.sincronizado=='false'">Retomar Pedido</a>        
+                                        </div>
+                                        <div class="col-md-2">
+                                            <a class="btn btn-danger btn-sm  " ng-show="pedidos.sincronizado=='false'" ng-click="anularPedido(pedidos)">Anular Pedido</a>  
+                                        </div>
+                                    </div>
+                                    <div ng-click="abrirModal(pedidos)">
+                                        <div class="row pull-right" style="margin: 1px">
+                                            <span class="fa fa-send-o" style="color:#FF8000" ng-show="pedidos.sincronizado=='plano'"></span>
+                                            <span class="fa fa-exclamation-triangle" style="color:#FF0040"  ng-show="pedidos.sincronizado=='false'"></span>
+                                            <span class="fa fa-check-circle" style="color:#2F9B89" ng-show="pedidos.sincronizado=='true'"></span>
+                                        </div>
+                                        <div class="row" style="margin: 0px">
+                                            <div class="form-group col-md-4" style="margin: 1px">
+                                                PEDIDO No: <span ng-show="pedidos.sincronizado=='true'"></span> 
+                                                <span ng-show="pedidos.sincronizado=='plano'">TEMP</span> 
+                                                <span ng-show="pedidos.sincronizado=='false'">TEMP</span> {{pedidos.rowidpedido}}
+                                            </div>
+
+                                            <div class="form-group col-md-4 pull-right" style="margin: 1px">
+                                                {{pedidos.fechacreacion}}
+                                            </div>   
+                                        </div>
+                                        <div class="row" style="margin: 0px">
+                                            <div class="form-group col-md-6" style="margin: 1px">
+                                               <strong> {{pedidos.razonsocial}}</strong>
+                                            </div>
+                                            <div class="form-group col-md-4 pull-right" style="margin: 1px">
+                                               <span ng-hide="pedidos.numpedido_erp=='null'"><strong> {{pedidos.numpedido_erp}}</strong></span>
+                                            </div>
+                                        </div>
+                                        <div class="row" style="margin: 0px">
+                                            <div class="form-group col-md-6" style="margin: 1px" >
+                                                Cantidad Productos: {{pedidos.cantidadproductos}}
+                                            </div>
+                                            <div class="form-group col-md-4 pull-right" style="margin: 1px">
+                                               <strong>  {{pedidos.valor_total | currency}}</strong>
+                                            </div>
+                                        </div>
+                                        <div ng-show="pedidos.estado_erp!='null' " class="row" style="margin: 0px">
+                                            <div class="form-group col-md-6" style="margin: 1px" >
+                                                Estado ERP: {{pedidos.estado_erp}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                </span>
+                                <div class="separator"></div>
+                            </div>
+                    </form>
+                </div>
+        </div>
+    </div>
+    <div id="PedidoDetalle" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <!--<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>-->
+                    <h4 class="modal-title" id="myModalLabel">Detalle Pedido # {{pedidoSeleccionado.rowidpedido}}</h4>
+                </div>
+                <div class="modal-body" style="overflow: auto">
+                    <div id="testmodal" style="padding: 0px;">
+                        <form id="antoform" class="form-horizontal calender form-label-left" role="form">
+                            <div ng-show="MostrarProceso ">
+                                <div class="row">
+                                    
+                                    <div class="col-md-6">
+                                        <div class="row" >
+                                            <div class="form-group col-md-8" style="margin: 1px">
+                                                Resultado Test Conexion :<br><strong>{{ResultadoTest.Mensaje}}</strong> 
+
+                                            </div>
+                                            <div class="form-group col-md-4" style="margin: 1px">
+                                                <button class="btn btn-primary" ng-hide="OcultarBtnTest" ng-click="TestInternet()">Realizar Nuevo Test</button>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="row" >
+                                            <div class="form-group col-md-8" style="margin: 1px">
+                                                Proceso Sincronizacion :
+                                            </div>
+                                            <div class="form-group col-md-4" style="margin: 1px">
+                                                <div ang:round:progress data-round-progress-model="roundProgressData"
+                                                                data-round-progress-width="70"
+                                                                data-round-progress-height="70"
+                                                                data-round-progress-outer-circle-width="12"
+                                                                data-round-progress-inner-circle-width="3"
+                                                                data-round-progress-outer-circle-radius="17"
+                                                                data-round-progress-inner-circle-radius="17"
+                                                                data-round-progress-label-font="9pt Arial"
+                                                                data-round-progress-outer-circle-background-color="#505769"
+                                                                data-round-progress-outer-circle-foreground-color="#12eeb9"
+                                                                data-round-progress-inner-circle-color="#505769"
+                                                                data-round-progress-label-color="#505769">                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="" ng-show="pedidoSeleccionado.sincronizado=='false' && pedidoSeleccionado.validacionPedido"><button class="btn btn-success confirmarEnvio" ng-click="ConfirmacionFechaentrega()">Listo Para Sincronizar</button></div>
+                            <div class="row " style="margin: 0px">
+                                <div class="form-group col-md-4 col-xs-12" style="margin: 1px">
+                                    Fecha Solicitud: <strong>{{pedidoSeleccionado.fechacreacion}}</strong>
+                                </div> 
+                            </div>
+                            
+                            <div class="row" style="margin: 0px">
+                                <div class="form-group col-md-12" style="margin: 1px">
+                                    Tercero: <strong>{{pedidoSeleccionado.razonsocial}}</strong> 
+                                </div>
+
+                            </div>
+                            <div class="row" style="margin: 0px">
+                                <div class="form-group col-md-12 col-xs-12" style="margin: 1px">
+                                    Sucursal Facturacion :<strong> {{pedidoSeleccionado.nombre_sucursal}}</strong>
+                                </div>
+                            </div>
+                            <div class="row" style="margin: 0px">
+                                <div class="form-group col-md-12 col-xs-12" style="margin: 1px">
+                                    Punto Envio :<strong> {{pedidoSeleccionado.Nombre_punto_envio}}</strong>
+                                </div>
+                            </div>
+                            <div class="row" style="margin: 0px">
+                                <div class="form-group col-md-4 col-xs-6" style="margin: 1px">
+                                    Cantidad :<strong> {{pedidoSeleccionado.cantidadproductos}}</strong>
+                                </div>
+                            </div>
+                            <div class="row" style="margin: 0px">
+                                
+                                <div class="form-group col-md-4 col-xs-12" style="margin: 1px">
+                                    Iva :<strong> {{pedidoSeleccionado.valor_impuesto|currency}}</strong>
+                                </div>
+                                <div class="form-group col-md-6 col-xs-12" style="margin: 1px">
+                                    Valor Total :<strong> {{pedidoSeleccionado.valor_total | currency}}</strong>
+                                </div>
+                            </div>
+                            <div class="row" style="margin: 0px"><h3>Items</h3></div>
+                            <div style="overflow-x:auto;" class="table-resposive">
+                                <table class="table  table-striped responsive-utilities jambo_table bulk_action">
+                                    <thead>
+                                        <th class="column-title">
+                                            Ref. 
+                                        </th>
+                                        <th ng-repeat="data in  TABLA_BALANCE" class="column-title">
+                                            {{data.TALLAS}}
+                                        </th>
+                                        <th class="column-title">Total</th>
+                                        <th class="column-title">Emp.</th>
+                                    </thead>
+                                    <tbody>
+                                        <tr  ng-repeat="item in detallespedido">
+                                           <td ng-click="ModalItem(item)">
+                                               {{item.item_referencia}}
+                                           </td>
+                                           <td ng-click="ModalItem(item)" ng-repeat="subitem in item.tallas track by $index">
+                                                <center>
+                                                    {{subitem.cantidad}}
+                                                </center>
+                                           </td>
+                                           <td ng-click="ModalItem(item)">{{item.cantidadtotal}}</td>
+                                           <td ng-click="ModalItem(item)">{{item.empaque}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                Total:
+                                            </td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td>{{contadores.cont5}}</td>
+                                            <td></td>
+                                        </tr>
+                                    </tbody>
+                                
+                                </table>  
+                            </div>
+                            
+                            <!--<div id="parent">
+                                    <div class="panel" ng-repeat="detallespedido in detallespedido">
+                                        <div style="font-color:blue" data-toggle="collapse" data-parent="#parent" data-target="#{{detallespedido.rowid_item}}">         {{detallespedido.linea_descripcion}}
+                                            <span class="fa fa-angle-down pull-right">
+                                        </div>
+                                        
+                                        <div id="{{detallespedido.rowid_item}}" class="collapse in">
+                                            <table class="table">
+                                                <tr>
+                                                    <td>Talla</td>
+                                                    <td>Cantidad</td>
+                                                </tr>
+                                                <tr ng-repeat="subitem in detallespedido.tallas">
+                                                    <td>{{subitem.talla}}</td>
+                                                    <td>{{subitem.cantidad}} </td>
+                                                </tr>
+                                                <!--<tr>
+                                                    <td>Total</td>
+                                                    <td>{{items.precio*items.cantidad+((items.precio*items.cantidad)*items.impuesto_porcentaje/100)| currency}}</td>
+                                                </tr>-->
+                          <!--                  </table                                        </div>
+                                    </div>
+                            </div>-->
+                            
+                            
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="CerrarModalPedidos" ng-click="modalPedidoOpen=false;FinalizarIntervalo()" class="btn btn-default antoclose" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="pedidoOpenModal" data-toggle="modal" data-target="#PedidoDetalle"></div>
+    <div id="Modalcolores" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+            <div class="modal-dialog" style="padding-bottom:100px">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="">Detalle Item</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div id="testmodal" style="padding: 0px;">
+                            <form id="antoform" class="form-horizontal calender form-label-left" role="form">
+                                <div class="row" style="margin: 0px">
+                                    <div class="form-group col-md-12" style="margin: 1px">
+                                         <label>
+                                        Item: <strong>{{ItemModal.linea_descripcion}}</strong> 
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin: 0px">
+                                    <div class="form-group col-md-4" style="margin: 1px">
+                                        <label>
+                                        Referencia: <strong>{{ItemModal.item_referencia}}</strong> 
+                                        </label>
+                                    </div>
+                                    <div class="form-group col-md-4" style="margin: 1px">
+                                        <label>
+                                        Empaque: <strong>{{ItemModal.empaque}}</strong> 
+                                        </label>
+                                    </div>
+                                    <div class="form-group col-md-4" style="margin: 1px">
+                                        <label>
+                                        Cantidad: <strong>{{ItemModal.cantidadtotal}}</strong> 
+                                        </label>
+                                    </div>
+                                </div>
+                                <div ng-repeat="item in ItemModal.tallas" ng-show="item.cantidad>0" >
+
+                                    <strong> Talla : {{item.talla}}</strong>
+                                    <div style="overflow-x:auto;" class="table-resposive" >
+                                    <table class="table table-striped responsive-utilities jambo_table bulk_action">
+                                        <tr>
+                                            <td ng-repeat="color in item.colores" ng-show="{{color.cantidad>0}}" style="border: 1px solid #b6b6b6;background:{{color.rgba}};" ></td>
+                                        </tr>
+                                        <tr>
+                                            <td ng-repeat="color in item.detalle2"  ng-show="{{color.cantidad>0}}">{{color.extencionDetalle2ID}} </td>
+                                        </tr>
+                                        <tr>
+                                            <td ng-repeat="color in item.detalle2"  ng-show="{{color.cantidad>0}}">{{color.cantidad}} </td>
+                                        </tr>
+                                    </table>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-danger antoclose" id="CerrarModalColores" ng-click="modalColorOpen=false" style="margin:0px"  data-dismiss="modal">Salir</button>
+                    
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="ColoresAgregados" data-toggle="modal" data-target="#Modalcolores"></div>
+        <div id="fecha" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+            <div class="modal-dialog" style="padding-bottom:100px">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="">Por Favor Confirmar Fecha de Entrega!</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div id="testmodal" style="padding: 0px;">
+                            <form id="antoform" class="form-horizontal calender form-label-left" role="form">
+                                <div class="row" style="margin: 0px">
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class=" col-md-12 col-xs-12">
+                                                <label  class="control-label">Fecha Entrega de El Pedido es : </label>
+                                                <input value="{{pedidoSeleccionado.fecha_entrega}}" type="text"  readonly="readonly" class="form-control" ></input>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class=" col-md-12 col-xs-12">
+                                                <label  class="control-label">Confirmacion de Fecha de Entrega<span class="required">*</span></label>
+                                                <input ng-model="FechaEntrega" ng-change="onChangeFechaEntrega()" type="date" id="FechaEntrega" class="form-control" ></input>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-success " id="conf" style="margin:0px" ng-click="PedidoConfirmado()" >Confirmar</button>
+                    <button type="button" class="btn btn-danger antoclose" id="closeconfirmacion" style="margin:0px"  data-dismiss="modal">Salir</button>
+                    
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="confirmacionFechaentrega" data-toggle="modal" data-target="#fecha"></div>
+</div>
