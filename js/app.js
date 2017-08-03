@@ -171,6 +171,7 @@ app_angular.controller('sessionController',['bootbox','Conexion','$scope','$loca
         {
             return;
         }
+        debugger
         var watchID = navigator.geolocation.getCurrentPosition(onSuccess, onError, options1);
         function onSuccess(position)
         {
