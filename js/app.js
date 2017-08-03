@@ -163,10 +163,15 @@ app_angular.controller('sessionController',['bootbox','Conexion','$scope','$loca
     { 
         geolocation();
     }, 60000);
-    var options = {enableHighAccuracy: true, timeout: 5000, maximumAge: 18000000};
+    
     function geolocation()
     {
-        var watchID = navigator.geolocation.getCurrentPosition(onSuccess, onError, options);
+        var options1 = {enableHighAccuracy: true, timeout: 7000, maximumAge: 18000000};
+        if ($scope.status.connextionstate==false) 
+        {
+            return;
+        }
+        var watchID = navigator.geolocation.getCurrentPosition(onSuccess, onError, options1);
         function onSuccess(position)
         {
             //$scope.sessiondate
@@ -190,7 +195,7 @@ app_angular.controller('sessionController',['bootbox','Conexion','$scope','$loca
         }
         function onError(error)
         {
-            //alert("Por favor habilitar la Ubicacion, Verificar Conexion a Internet!");
+            alert("Por favor habilitar la Ubicacion.");
         }
     }
     $scope.procesoSincronizacion=false;
