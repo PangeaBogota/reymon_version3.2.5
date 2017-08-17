@@ -162,7 +162,7 @@ app_angular.controller('sessionController',['bootbox','Conexion','$scope','$loca
     setInterval(function()
     { 
         geolocation();
-    }, 60000);
+    }, 300000);
     
     function geolocation()
     {
