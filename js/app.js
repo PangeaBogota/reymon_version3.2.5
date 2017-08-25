@@ -297,7 +297,7 @@ app_angular.controller('sessionController',['bootbox','Conexion','$scope','$loca
         $.ajax({
             type: "POST",
             //url: "http://reymon.pedidosonline.co/mobile/syncv3",
-            url:"http://reymonpruebas.pedidosonline.co/mobile/syncv3"
+            url:"http://reymonpruebas.pedidosonline.co/mobile/syncv3",
             contentType: false,
             processData: false,
             data: formdata,
