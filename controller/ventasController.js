@@ -82,6 +82,7 @@ app_angular.controller("pedidoController",['Conexion','$scope','$location','$htt
 		$scope.ColorMasivoMedia=[];
 		$scope.CantidadDocena=12;
 		$scope.MediaDocenaCount=6;
+
 	}
 	//CONSULTA DE TERCEROS
 	CRUD.select('select*from erp_terceros order by razonsocial',
@@ -1255,6 +1256,7 @@ app_angular.controller("pedidoController",['Conexion','$scope','$location','$htt
 			ProcesadoHiden();	
 			$scope.ItemsPedidoAgregados();
 			$scope.Item=null;
+			$scope.FiltroItem='';
 		}, 4000);
 		
     }

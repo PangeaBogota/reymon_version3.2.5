@@ -162,7 +162,7 @@ app_angular.controller('sessionController',['bootbox','Conexion','$scope','$loca
     setInterval(function()
     { 
         geolocation();
-    }, 300000);
+    }, 30000);
     
     function geolocation()
     {
@@ -195,7 +195,7 @@ app_angular.controller('sessionController',['bootbox','Conexion','$scope','$loca
         }
         function onError(error)
         {
-            alert("Por favor habilitar la Ubicacion.");
+            Mensajes("Por favor habilitar la Ubicacion.",'information');
         }
     }
     $scope.procesoSincronizacion=false;

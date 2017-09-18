@@ -755,3 +755,164 @@ app_angular.controller("PedidosController",['Conexion','$scope','$route','$inter
 		  
 	 });*/
 }]);
+
+
+app_angular.controller("PedidosLocalesController",['Conexion','$scope','$route','$interval',function (Conexion,$scope,$route,$interval) {
+	$scope.sessiondate=JSON.parse(window.localStorage.getItem("CUR_USER"));
+	$scope.cargarLista=function()
+	{
+		$scope.pedidos=[];
+		CRUD.select('select  distinct pedidos.sincronizado,pedidos.valor_impuesto,pedidos.fechacreacion,pedidos.sincronizado,pedidos.fecha_entrega, pedidos.rowid as rowidpedido,terceros.razonsocial,sucursal.nombre_sucursal,punto_envio.nombre_punto_envio,pedidos.valor_total,detalle.rowid_pedido,count(detalle.rowid_pedido) cantidaddetalles,sum(detalle.cantidad) as cantidadproductos,pedidos.numpedido_erp,pedidos.estado_erp from  t_pedidos pedidos inner join erp_terceros_sucursales sucursal on sucursal.rowid=pedidos.rowid_cliente_facturacion  inner join erp_terceros terceros on terceros.rowid=sucursal.rowid_tercero  left  join t_pedidos_detalle detalle on detalle.rowid_pedido=pedidos.rowid left join erp_terceros_punto_envio punto_envio on punto_envio.rowid=pedidos.id_punto_envio where pedidos.id_estado!=105 and pedidos.sincronizado!="false"  group by  pedidos.fecha_solicitud,detalle.rowid_pedido,pedidos.rowid,terceros.razonsocial,sucursal.nombre_sucursal,punto_envio.nombre_punto_envio,pedidos.valor_total order by pedidos.rowid desc  ',
+		function(elem) {
+			elem.tablamobile=1;
+			$scope.pedidos.push(elem)
+		});
+	}
+	$scope.cargarLista();
+	$scope.build=function(rowid){
+		debugger
+		ProcesadoShow();
+		$scope.queryBuild='    select  '+
+		   ' t.key_user,'+
+		   ' t.rowid_empresa,'+
+			't.id_cia,t.usuariocreacion,'+
+			't.fechacreacion,'+
+			't.rowid as e_rowid, '+
+			't.rowid_cliente_facturacion as  e_rowid_cliente_facturacion,'+
+			't.rowid_cliente_despacho as e_rowid_cliente_despacho,'+
+			't.rowid_lista_precios as e_rowid_lista_precios,'+
+			't.id_punto_envio as e_id_punto_envio,'+
+			't.fecha_pedido as e_fecha_pedido,'+
+			't.fecha_entrega as e_fecha_entrega,'+
+			't.valor_base as e_valor_base,'+
+			't.valor_descuento as e_valor_descuento,'+
+			't.valor_impuesto as e_valor_impuesto,'+
+			't.valor_total as e_valor_total,'+
+			't.id_estado as e_id_estado,'+
+			't.ind_estado_erp as e_ind_estado_erp,'+
+			't.valor_facturado as e_valor_facturado,'+
+			't.fecha_solicitud as e_fechasolicitud,'+
+			't.orden_compra as e_orden_compra,'+
+			't.modulo_creacion as e_modulo_creacion,'+
+			't.observaciones as e_observaciones,'+
+			'tpd.rowid as d_rowid,'+
+			'tpd.rowid_pedido as d_rowid_pedido,'+
+			'tpd.rowid_item as d_rowid_item,'+
+			'tpd.linea_descripcion as d_linea_descripcion,'+
+			'tpd.id_unidad as d_id_unidad,'+
+			'tpd.cantidad as d_cantidad,'+
+			'tpd.factor as d_factor,'+
+			'tpd.cantidad_base as d_cantidad_base,'+
+		   'tpd.stock as d_stock,'+
+			'tpd.porcen_descuento as d_porcen_descuento,'+
+			'tpd.valor_base as d_valor_base,'+
+			'tpd.valor_impuesto as d_valor_impuesto,'+
+			'tpd.valor_total_linea as d_valor_total_linea,'+
+			'tpd.item_ext1 as d_item_ext1,'+
+			'tpd.rowid_item_ext as d_rowid_item_ext,'+
+			'tpd.empaque as d_empaque,'+
+			'tpd.observaciones as d_observaciones,'+
+			'tpd.rowid_bodega as d_rowid_bodega,'+
+			'tpd.precio_unitario as d_precio_unitario,'+
+			'tpd.valor_descuento as d_valor_descuento,'+
+			'tpd.tipomedida as tipomedida,'+
+			'tpdd.rowid as s_rowid,'+
+			'tpdd.pedidodetalle as s_rowid_detalle,'+
+			'tpdd.cantidad as s_cantidad,'+
+			'tpdd.itemExtension2Detalle as s_itemextencion2detalle,tpdd.rowid_sku '+
+			' from t_pedidos t'+
+			' inner  join  t_pedidos_detalle tpd '+
+			' on tpd.rowid_pedido=t.rowid'+
+			' inner  join t_pedidos_detalle_detalle tpdd '+
+			' on tpdd.pedidodetalle=tpd.rowid   where  t.rowid= __REQUIRED   '+
+			' order by t.rowid asc';
+		$scope.queryBuild=$scope.queryBuild.replace('__REQUIRED',rowid)
+		CRUD.selectAllinOne($scope.queryBuild,function(ped){
+			var PedidosEnviar=[];
+			for (var i = 0; i < ped.length; i++) {
+				var Item=
+				{
+					rowid:0,
+					indicador:ped[i].key_user,
+					rowid_empresa:ped[i].rowid_empresa,
+					rowid_cia:ped[i].id_cia,
+					codigo_usuario:ped[i].key_user,
+					usuariocreacion:ped[i].usuariocreacion,
+					fechacreacion:ped[i].fechacreacion,
+					e_rowid:ped[i].e_rowid,
+					e_rowid_cliente_facturacion:ped[i].e_rowid_cliente_facturacion,
+					e_rowid_cliente_despacho:ped[i].e_rowid_cliente_despacho,
+					e_rowid_cliente_precios:ped[i].e_rowid_lista_precios,
+					e_id_punto_envio:ped[i].e_id_punto_envio,
+					e_pedido_fecha_pedido:ped[i].e_fecha_pedido,
+					e_fecha_entrega:ped[i].e_fecha_entrega,
+					e_valor_base:ped[i].e_valor_base,
+					e_valor_descuento:ped[i].e_valor_descuento,
+					e_valor_impuesto:ped[i].e_valor_impuesto,
+					e_valor_total:ped[i].e_valor_total,
+					e_id_estado:ped[i].e_id_estado,
+					e_ind_estado_erp:ped[i].e_ind_estado_erp,
+					e_valor_facturado:ped[i].e_valor_facturado,
+					e_fecha_solicitud:ped[i].e_fechasolicitud,
+					e_orden_compra:ped[i].e_orden_compra,
+					e_modulo_creacion:ped[i].e_modulo_creacion,
+					e_observaciones:ped[i].e_observaciones,
+					d_rowid:ped[i].d_rowid,
+					d_rowid_pedido:ped[i].d_rowid_pedido,
+					d_rowid_item:ped[i].d_rowid_item,
+					d_linea_descripcion:ped[i].d_linea_descripcion,
+					d_id_unidad:ped[i].d_id_unidad,
+					d_cantidad:ped[i].d_cantidad,
+					d_factor:ped[i].d_factor,
+					d_cantidad_base:ped[i].d_cantidad_base,
+					d_stock:ped[i].d_stock,
+					d_porcen_descuento:ped[i].d_porcen_descuento,
+					d_valor_base:ped[i].d_valor_base,
+					d_valor_impuesto:ped[i].d_valor_impuesto,
+					d_valor_total_linea:ped[i].d_valor_total_linea,
+					d_item_ext1:ped[i].d_item_ext1,
+					d_rowid_item_ext:ped[i].d_rowid_item_ext,
+					d_empaque:ped[i].d_empaque,
+					d_observaciones:ped[i].d_observaciones,
+					d_rowid_bodega:"3004",
+					s_rowid:ped[i].s_rowid,
+					s_rowid_detalle:ped[i].s_rowid_detalle,
+					s_cantidad:ped[i].s_cantidad,
+					s_itemExtencion2Detalle:ped[i].s_itemextencion2detalle,
+					estado:0,
+					ultimo_registro:0,
+					estadoItem:0,
+					estadoSubItem:0,
+					d_precios_unitario:ped[i].d_precio_unitario,
+					d_valor_descuento:ped[i].d_valor_descuento,
+					lineas_plano:ped.length,
+					rowid_sku:ped[i].rowid_sku,
+					TipoMedida:ped[i].tipomedida,
+				};
+				PedidosEnviar.push(Item);
+			}
+			$scope.usuario=$scope.sessiondate.nombre_usuario;
+	        $scope.codigoempresa=$scope.sessiondate.codigo_empresa;
+	        var datos=JSON.stringify(PedidosEnviar);
+	        var formdata = new FormData();
+	        formdata.append("datos",datos)
+	        formdata.append("usuario", $scope.usuario)
+	        formdata.append("codigo_empresa",$scope.codigoempresa);
+	        $.ajax({
+	            type: "POST",
+	            url: "http://reymon.pedidosonline.co/mobile/syncv3",
+	            contentType: false,
+	            processData: false,
+	            data: formdata,
+	            success: function (data) {
+	                ProcesadoHiden();
+	                Mensajes('Enviado Correctamente','success','');
+	            },
+	            error: function (request) {
+	                ProcesadoHiden();
+	                Mensajes('Por favor revisar conexion','error','');
+	            }
+	        });
+		})
+	}
+}]);

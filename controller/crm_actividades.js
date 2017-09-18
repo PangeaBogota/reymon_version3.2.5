@@ -136,7 +136,7 @@ app_angular.controller("actividadesController",['Conexion','$scope', '$routePara
     }
     function onError(error)
     {
-        alert("Por favor habilitar la Ubicacion.");
+        Mensajes("Por favor habilitar la Ubicacion.",'information');
     }
     function rand_code(chars, lon){
 		var code = "";
