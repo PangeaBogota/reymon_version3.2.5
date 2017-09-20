@@ -299,7 +299,7 @@ app_angular.controller("pedidoController",['Conexion','$scope','$location','$htt
 		$('#OpenModalColor').click();
 		if ($scope.ColorMasivo.length==0) {
 			$scope.CantidadDocena=12;
-			CRUD.select("select distinct a.itemID,a.extencionDetalle2ID,0 as cantidad,d.rgba,d.url_imagen from erp_items_extenciones a inner join erp_item_extencion2_detalle d on d.rowid_erp=a.extencionDetalle2ID and a.extencion2ID=d.extencion2ID  where itemID='"+$scope.Item.rowid_item+"' order by extencionDetalle2ID",function(elem){
+			CRUD.select("select distinct a.itemID,a.extencionDetalle2ID,0 as cantidad,d.rgba,a.imagen2,a.imagen3,a.imagen4,a.imagen1 url_imagen from erp_items_extenciones a inner join erp_item_extencion2_detalle d on d.rowid_erp=a.extencionDetalle2ID and a.extencion2ID=d.extencion2ID  where itemID='"+$scope.Item.rowid_item+"' order by extencionDetalle2ID",function(elem){
 				$scope.ColorMasivo.push(elem);
 			})		
 		}	
@@ -366,7 +366,7 @@ app_angular.controller("pedidoController",['Conexion','$scope','$location','$htt
 				continue;
 			}
 			var CantidadBase=$scope.Tallas[i].cantidad;
-			CRUD.selectAllinOne("select a.*,0 as cantidad,'"+CantidadBase+"' as cantidadextension1,"+i+" as  IndicadorArray, d.rgba,d.url_imagen from erp_items_extenciones a inner join erp_item_extencion2_detalle d on d.rowid_erp=a.extencionDetalle2ID and a.extencion2ID=d.extencion2ID  where a.itemID='"+$scope.Tallas[i].itemID+"'  and  a.extencionDetalle1ID='"+$scope.Tallas[i].talla+"' order by extenciondetalle2id ",function(elem){
+			CRUD.selectAllinOne("select a.*,0 as cantidad,'"+CantidadBase+"' as cantidadextension1,"+i+" as  IndicadorArray, d.rgba,a.imagen2,a.imagen3,a.imagen4,a.imangen1 url_imagen from erp_items_extenciones a inner join erp_item_extencion2_detalle d on d.rowid_erp=a.extencionDetalle2ID and a.extencion2ID=d.extencion2ID  where a.itemID='"+$scope.Tallas[i].itemID+"'  and  a.extencionDetalle1ID='"+$scope.Tallas[i].talla+"' order by extenciondetalle2id ",function(elem){
 				var CantidadTalla=0;
 				var InidicadorArray=0;
 				var ValidacionEstadoCompleto=true;
@@ -431,7 +431,7 @@ app_angular.controller("pedidoController",['Conexion','$scope','$location','$htt
 		}
 
 		if ($scope.banderaConsumo==1) {
-			CRUD.select("select a.*,0 as cantidad,'"+cantidad+"' as cantidadextension1,d.rgba,d.url_imagen from erp_items_extenciones a inner join erp_item_extencion2_detalle d on d.rowid_erp=a.extencionDetalle2ID and a.extencion2ID=d.extencion2ID where itemID='"+item+"'  and  extencionDetalle1ID='"+talla+"'  order by a.extencionDetalle2ID ",function(elem){
+			CRUD.select("select a.*,0 as cantidad,'"+cantidad+"' as cantidadextension1,d.rgba,a.imagen2,a.imagen3,a.imagen4,a.imagen1 url_imagen from erp_items_extenciones a inner join erp_item_extencion2_detalle d on d.rowid_erp=a.extencionDetalle2ID and a.extencion2ID=d.extencion2ID where itemID='"+item+"'  and  extencionDetalle1ID='"+talla+"'  order by a.extencionDetalle2ID ",function(elem){
 				$scope.ColoresTalla.push(elem);
 			})	
 		}
@@ -477,7 +477,7 @@ app_angular.controller("pedidoController",['Conexion','$scope','$location','$htt
 		}
 
 		if ($scope.banderaConsumo==1) {
-			CRUD.select("select a.*,0 as cantidad,'"+cantidad+"' as cantidadextension1,d.rgba,d.url_imagen from erp_items_extenciones a inner join erp_item_extencion2_detalle d on d.rowid_erp=a.extencionDetalle2ID and a.extencion2ID=d.extencion2ID where itemID='"+item+"'  and  extencionDetalle1ID='"+talla+"'  order by a.extencionDetalle2ID ",function(elem){
+			CRUD.select("select a.*,0 as cantidad,'"+cantidad+"' as cantidadextension1,d.rgba,a.imagen2,a.imagen3,a.imagen4,a.imagen1 url_imagen from erp_items_extenciones a inner join erp_item_extencion2_detalle d on d.rowid_erp=a.extencionDetalle2ID and a.extencion2ID=d.extencion2ID where itemID='"+item+"'  and  extencionDetalle1ID='"+talla+"'  order by a.extencionDetalle2ID ",function(elem){
 				$scope.ColoresTalla.push(elem);
 			})	
 		}
@@ -694,7 +694,7 @@ app_angular.controller("pedidoController",['Conexion','$scope','$location','$htt
 			{
 				continue;
 			}
-			CRUD.selectAllinOne("select a.*,0 as cantidad,'"+CantidadBase+"' as cantidadextension1,"+i+" as  IndicadorArray, d.rgba,d.url_imagen from erp_items_extenciones a inner join erp_item_extencion2_detalle d on d.rowid_erp=a.extencionDetalle2ID and d.extencion2ID=a.extencion2ID  where a.itemID='"+$scope.Tallas[i].itemID+"'  and  a.extencionDetalle1ID='"+$scope.Tallas[i].talla+"' order by extenciondetalle2id ",function(elem){
+			CRUD.selectAllinOne("select a.*,0 as cantidad,'"+CantidadBase+"' as cantidadextension1,"+i+" as  IndicadorArray, d.rgba,a.imagen2,a.imagen3,a.imagen4,a.imagen1 url_imagen from erp_items_extenciones a inner join erp_item_extencion2_detalle d on d.rowid_erp=a.extencionDetalle2ID and d.extencion2ID=a.extencion2ID  where a.itemID='"+$scope.Tallas[i].itemID+"'  and  a.extencionDetalle1ID='"+$scope.Tallas[i].talla+"' order by extenciondetalle2id ",function(elem){
 				if (elem.length>0) {
 					var CantidadTalla=0;
 					var InidicadorArray=0;
@@ -750,7 +750,7 @@ app_angular.controller("pedidoController",['Conexion','$scope','$location','$htt
 		$scope.ModalColorMasivo=true;
 		$('#OpenModalColorMedia').click();
 		if ($scope.ColorMasivoMedia.length==0) {
-			CRUD.select("select distinct a.itemID,a.extencionDetalle2ID,0 as cantidad,d.rgba,d.url_imagen from erp_items_extenciones a inner join erp_item_extencion2_detalle d on d.rowid_erp=a.extencionDetalle2ID and a.extencion2ID=d.extencion2ID  where itemID='"+$scope.Item.rowid_item+"' order by extencionDetalle2ID",function(elem){
+			CRUD.select("select distinct a.itemID,a.extencionDetalle2ID,0 as cantidad,d.rgba,a.imagen2,a.imagen3,a.imagen4,a.imagen1 url_imagen from erp_items_extenciones a inner join erp_item_extencion2_detalle d on d.rowid_erp=a.extencionDetalle2ID and a.extencion2ID=d.extencion2ID  where itemID='"+$scope.Item.rowid_item+"' order by extencionDetalle2ID",function(elem){
 				$scope.ColorMasivoMedia.push(elem);
 				
 			})		
@@ -804,7 +804,7 @@ app_angular.controller("pedidoController",['Conexion','$scope','$location','$htt
 			if (CantidadBase% 1 != 0) {
 				var cantidadColores=$scope.cantidadColor(i);
 				if (((CantidadBase*12)-cantidadColores)==6) {
-					CRUD.selectAllinOne("select a.*,0 as cantidad,'"+CantidadBase+"' as cantidadextension1,"+i+" as  IndicadorArray, d.rgba,d.url_imagen from erp_items_extenciones a inner join erp_item_extencion2_detalle d on d.rowid_erp=a.extencionDetalle2ID  where a.itemID='"+$scope.Tallas[i].itemID+"'  and  a.extencionDetalle1ID='"+$scope.Tallas[i].talla+"' order by extenciondetalle2id ",function(elem){
+					CRUD.selectAllinOne("select a.*,0 as cantidad,'"+CantidadBase+"' as cantidadextension1,"+i+" as  IndicadorArray, d.rgba,a.imagen2,a.imagen3,a.imagen4,a.imagen1 url_imagen from erp_items_extenciones a inner join erp_item_extencion2_detalle d on d.rowid_erp=a.extencionDetalle2ID  where a.itemID='"+$scope.Tallas[i].itemID+"'  and  a.extencionDetalle1ID='"+$scope.Tallas[i].talla+"' order by extenciondetalle2id ",function(elem){
 						var CantidadTalla=0;
 						var InidicadorArray=0;
 						var ContadorColor=0;
@@ -865,7 +865,7 @@ app_angular.controller("pedidoController",['Conexion','$scope','$location','$htt
 		if (CantidadBase% 1 != 0) {
 			var cantidadColores=$scope.cantidadColor(i);
 			if (((CantidadBase*12)-cantidadColores)==6) {
-				CRUD.selectAllinOne("select a.*,0 as cantidad,'"+CantidadBase+"' as cantidadextension1,"+i+" as  IndicadorArray, d.rgba,d.url_imagen from erp_items_extenciones a inner join erp_item_extencion2_detalle d on d.rowid_erp=a.extencionDetalle2ID  where a.itemID='"+$scope.Tallas[i].itemID+"'  and  a.extencionDetalle1ID='"+$scope.Tallas[i].talla+"' order by extenciondetalle2id ",function(elem){
+				CRUD.selectAllinOne("select a.*,0 as cantidad,'"+CantidadBase+"' as cantidadextension1,"+i+" as  IndicadorArray, d.rgba,a.imagen2,a.imagen3,a.imagen4,a.imagen1 url_imagen from erp_items_extenciones a inner join erp_item_extencion2_detalle d on d.rowid_erp=a.extencionDetalle2ID  where a.itemID='"+$scope.Tallas[i].itemID+"'  and  a.extencionDetalle1ID='"+$scope.Tallas[i].talla+"' order by extenciondetalle2id ",function(elem){
 					var CantidadTalla=0;
 					var InidicadorArray=0;
 					var ContadorColor=0;
@@ -1312,7 +1312,7 @@ app_angular.controller("pedidoController",['Conexion','$scope','$location','$htt
 					for (var i = 0; i < $scope.Tallas.length; i++) {
 						if ($scope.Tallas[i].cantidad>0) 
 						{
-							CRUD.selectAllinOne("select a.*,0 as cantidad,'"+$scope.Tallas[i].cantidad+"' as cantidadextension1,d.rgba,d.url_imagen,"+i+" as b,'"+$scope.Tallas[i].talla+"' as talla from erp_items_extenciones a inner join erp_item_extencion2_detalle d on d.rowid_erp=a.extencionDetalle2ID and a.extencion2ID=d.extencion2ID where itemID='"+item.rowid_item+"'  and  extencionDetalle1ID='"+$scope.Tallas[i].talla+"'  order by a.extencionDetalle2ID ",function(elemColores){
+							CRUD.selectAllinOne("select a.*,0 as cantidad,'"+$scope.Tallas[i].cantidad+"' as cantidadextension1,d.rgba,a.imagen2,a.imagen3,a.imagen4,a.imagen1 url_imagen,"+i+" as b,'"+$scope.Tallas[i].talla+"' as talla from erp_items_extenciones a inner join erp_item_extencion2_detalle d on d.rowid_erp=a.extencionDetalle2ID and a.extencion2ID=d.extencion2ID where itemID='"+item.rowid_item+"'  and  extencionDetalle1ID='"+$scope.Tallas[i].talla+"'  order by a.extencionDetalle2ID ",function(elemColores){
 								if (elemColores.length>0) 
 								{
 									for (var i = 0; i < elemColores.length; i++) {
@@ -1331,7 +1331,7 @@ app_angular.controller("pedidoController",['Conexion','$scope','$location','$htt
 					for (var i = 0; i < $scope.TallasUnidad.length; i++) {
 						if ($scope.TallasUnidad[i].cantidad>0) 
 						{
-							CRUD.selectAllinOne("select a.*,0 as cantidad,'"+$scope.TallasUnidad[i].cantidad+"' as cantidadextension1,d.rgba,d.url_imagen,"+i+" as b from erp_items_extenciones a inner join erp_item_extencion2_detalle d on d.rowid_erp=a.extencionDetalle2ID and a.extencion2ID=d.extencion2ID where itemID='"+item.rowid_item+"'  and  extencionDetalle1ID='"+$scope.TallasUnidad[i].talla+"'  order by a.extencionDetalle2ID ",function(elemColores){
+							CRUD.selectAllinOne("select a.*,0 as cantidad,'"+$scope.TallasUnidad[i].cantidad+"' as cantidadextension1,d.rgba,a.imagen2,a.imagen3,a.imagen4,a.imagen1 url_imagen,"+i+" as b from erp_items_extenciones a inner join erp_item_extencion2_detalle d on d.rowid_erp=a.extencionDetalle2ID and a.extencion2ID=d.extencion2ID where itemID='"+item.rowid_item+"'  and  extencionDetalle1ID='"+$scope.TallasUnidad[i].talla+"'  order by a.extencionDetalle2ID ",function(elemColores){
 								if (elemColores.length>0) 
 								{
 									for (var i = 0; i < elemColores.length; i++) {

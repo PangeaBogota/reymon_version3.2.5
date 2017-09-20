@@ -967,10 +967,6 @@ app_angular.service('Factory', function ($webSql) {
             "null": "NULL"
         },
     });
-
-
-
-
     db.createTable('t_pedidos_web', {
         "rowid": {
             "type": "INTEGER",
@@ -1165,8 +1161,6 @@ app_angular.service('Factory', function ($webSql) {
             "null": "NULL"
         }
     });
-
-
     db.createTable('t_pedidos_temporal', {
         "rowid": {
             "type": "INTEGER",
@@ -1659,9 +1653,6 @@ app_angular.service('Factory', function ($webSql) {
         }
         
     });
-
-
-
     db.createTable('t_pedidos_detalle_web', {
         "rowid": {
             "type": "INTEGER",
@@ -2165,8 +2156,6 @@ app_angular.service('Factory', function ($webSql) {
             "null": "NULL"
         }
     });
-
-
     db.createTable('m_empresas_config', {
         "rowid": {
             "type": "INTEGER",
@@ -2830,6 +2819,22 @@ app_angular.service('Factory', function ($webSql) {
             "null": "NULL"
         },
         "proceso": {
+            "type": "text",
+            "null": "NULL"
+        },
+        "imagen1": {
+            "type": "text",
+            "null": "NULL"
+        },
+        "imagen2": {
+            "type": "text",
+            "null": "NULL"
+        },
+        "imagen3": {
+            "type": "text",
+            "null": "NULL"
+        },
+        "imagen4": {
             "type": "text",
             "null": "NULL"
         }
