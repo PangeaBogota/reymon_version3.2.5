@@ -299,8 +299,13 @@ app_angular.controller("pedidoController",['Conexion','$scope','$location','$htt
 		$('#OpenModalColor').click();
 		if ($scope.ColorMasivo.length==0) {
 			$scope.CantidadDocena=12;
-			CRUD.select("select distinct a.itemID,a.extencionDetalle2ID,0 as cantidad,d.rgba,a.imagen2,a.imagen3,a.imagen4,a.imagen1 url_imagen from erp_items_extenciones a inner join erp_item_extencion2_detalle d on d.rowid_erp=a.extencionDetalle2ID and a.extencion2ID=d.extencion2ID  where itemID='"+$scope.Item.rowid_item+"' order by extencionDetalle2ID",function(elem){
-				$scope.ColorMasivo.push(elem);
+			CRUD.selectAllinOne("select distinct a.itemID,a.extencionDetalle2ID,0 as cantidad,d.rgba,'null' imagen2,'null' imagen3,'null' imagen4,'null'  url_imagen from erp_items_extenciones a inner join erp_item_extencion2_detalle d on d.rowid_erp=a.extencionDetalle2ID and a.extencion2ID=d.extencion2ID  where itemID='"+$scope.Item.rowid_item+"' order by extencionDetalle2ID",function(elem){
+				$scope.ColorMasivo=elem;
+				for (var i = 0; i < $scope.ColorMasivo.length; i++) {
+					CRUD.select("select '"+i+"' count, imagen1 from erp_items_extenciones where itemID='"+$scope.ColorMasivo[i].itemID+"'  and extencionDetalle2ID='"+$scope.ColorMasivo[i].extencionDetalle2ID+"' LIMIT 1",function(reg){
+						$scope.ColorMasivo[reg.count].url_imagen=reg.imagen1;
+					})
+				}
 			})		
 		}	
 	}
@@ -750,9 +755,13 @@ app_angular.controller("pedidoController",['Conexion','$scope','$location','$htt
 		$scope.ModalColorMasivo=true;
 		$('#OpenModalColorMedia').click();
 		if ($scope.ColorMasivoMedia.length==0) {
-			CRUD.select("select distinct a.itemID,a.extencionDetalle2ID,0 as cantidad,d.rgba,a.imagen2,a.imagen3,a.imagen4,a.imagen1 url_imagen from erp_items_extenciones a inner join erp_item_extencion2_detalle d on d.rowid_erp=a.extencionDetalle2ID and a.extencion2ID=d.extencion2ID  where itemID='"+$scope.Item.rowid_item+"' order by extencionDetalle2ID",function(elem){
-				$scope.ColorMasivoMedia.push(elem);
-				
+			CRUD.selectAllinOne("select distinct a.itemID,a.extencionDetalle2ID,0 as cantidad,d.rgba,'null' imagen2,'null' imagen3,'null' imagen4,'null'  url_imagen from erp_items_extenciones a inner join erp_item_extencion2_detalle d on d.rowid_erp=a.extencionDetalle2ID and a.extencion2ID=d.extencion2ID  where itemID='"+$scope.Item.rowid_item+"' order by extencionDetalle2ID",function(elem){
+				$scope.ColorMasivoMedia=elem;
+				for (var i = 0; i < $scope.ColorMasivoMedia.length; i++) {
+					CRUD.select("select '"+i+"' count, imagen1 from erp_items_extenciones where itemID='"+$scope.ColorMasivoMedia[i].itemID+"'  and extencionDetalle2ID='"+$scope.ColorMasivoMedia[i].extencionDetalle2ID+"' LIMIT 1",function(reg){
+						$scope.ColorMasivoMedia[reg.count].url_imagen=reg.imagen1;
+					})
+				}
 			})		
 		}
 	}
@@ -1552,8 +1561,18 @@ app_angular.controller("pedidoController",['Conexion','$scope','$location','$htt
 	$scope.openModalProductoC=false;
 	$scope.openModalProducto=function(item)
 	{
+		debugger
 		$scope.openModalProductoC=true;
 		$scope.ProductoModal=item;
+		if (!($scope.ProductoModal.rowid>0)) 
+		{
+			CRUD.select("select  imagen1,imagen2,imagen3,imagen4 from erp_items_extenciones where itemID='"+$scope.ProductoModal.itemID+"'  and extencionDetalle2ID='"+$scope.ProductoModal.extencionDetalle2ID+"' LIMIT 1",function(reg){
+				$scope.ProductoModal.url_imagen=reg.imagen1;
+				$scope.ProductoModal.imagen2=reg.imagen2;
+				$scope.ProductoModal.imagen3=reg.imagen3;
+				$scope.ProductoModal.imagen4=reg.imagen4;
+			})
+		}
 		$('#OpenModalProducto').click();
 	}
 	$scope.closeModalProducto=function()
