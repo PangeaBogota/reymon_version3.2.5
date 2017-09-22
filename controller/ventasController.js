@@ -371,7 +371,7 @@ app_angular.controller("pedidoController",['Conexion','$scope','$location','$htt
 				continue;
 			}
 			var CantidadBase=$scope.Tallas[i].cantidad;
-			CRUD.selectAllinOne("select a.*,0 as cantidad,'"+CantidadBase+"' as cantidadextension1,"+i+" as  IndicadorArray, d.rgba,a.imagen2,a.imagen3,a.imagen4,a.imangen1 url_imagen from erp_items_extenciones a inner join erp_item_extencion2_detalle d on d.rowid_erp=a.extencionDetalle2ID and a.extencion2ID=d.extencion2ID  where a.itemID='"+$scope.Tallas[i].itemID+"'  and  a.extencionDetalle1ID='"+$scope.Tallas[i].talla+"' order by extenciondetalle2id ",function(elem){
+			CRUD.selectAllinOne("select a.*,0 as cantidad,'"+CantidadBase+"' as cantidadextension1,"+i+" as  IndicadorArray, d.rgba,a.imagen2,a.imagen3,a.imagen4,a.imagen1 url_imagen from erp_items_extenciones a inner join erp_item_extencion2_detalle d on d.rowid_erp=a.extencionDetalle2ID and a.extencion2ID=d.extencion2ID  where a.itemID='"+$scope.Tallas[i].itemID+"'  and  a.extencionDetalle1ID='"+$scope.Tallas[i].talla+"' order by extenciondetalle2id ",function(elem){
 				var CantidadTalla=0;
 				var InidicadorArray=0;
 				var ValidacionEstadoCompleto=true;
