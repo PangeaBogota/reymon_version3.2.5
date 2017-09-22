@@ -2935,7 +2935,11 @@ app_angular.controller("pedidoController",['Conexion','$scope','$location','$htt
                             "','"+DATOS_ENTIDADES_SINCRONIZACION[i][j].rowid_erp+
                             "','"+DATOS_ENTIDADES_SINCRONIZACION[i][j].stock+
                              "','"+DATOS_ENTIDADES_SINCRONIZACION[i][j].EstadoID+
-                            "','"+DATOS_ENTIDADES_SINCRONIZACION[i][j].proceso+"' "; 
+                            "','"+DATOS_ENTIDADES_SINCRONIZACION[i][j].proceso+
+                            "','"+DATOS_ENTIDADES_SINCRONIZACION[i][j].imagen1+
+                            "','"+DATOS_ENTIDADES_SINCRONIZACION[i][j].imagen2+
+                            "','"+DATOS_ENTIDADES_SINCRONIZACION[i][j].imagen3+
+                            "','"+DATOS_ENTIDADES_SINCRONIZACION[i][j].imagen4+"' "; 
                             if (contador==499) {
                                 CRUD.Updatedynamic(stringSentencia)
                                 NewQuery=true;

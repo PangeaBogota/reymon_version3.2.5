@@ -102,21 +102,23 @@ app_angular.controller("actividadesController",['Conexion','$scope', '$routePara
 
 		$scope.eventSources=[];
 		$scope.events=[];
-		CRUD.select('select rowid,  fecha_inicial, fecha_final,tema,ind_prioridad from crm_Actividades',
+		CRUD.selectAllinOne('select rowid,  fecha_inicial, fecha_final,tema,ind_prioridad from crm_Actividades',
 		function(elem){
-			$scope.actividades.push(elem);
-			//hora Inicial
-			$scope.fechainicial=new Date(elem.fecha_inicial);
-			//Hora Final
-			$scope.fechafinal=new Date(elem.fecha_final);
-			if (elem.ind_prioridad=='Alta') {
-				$scope.events.push({id:elem.rowid,title:elem.tema,start:new Date(elem.fecha_inicial),end:new Date(elem.fecha_final),color:'red'})	
-			}
-			else if (elem.ind_prioridad=='Media') {
-				$scope.events.push({id:elem.rowid,title:elem.tema,start:new Date(elem.fecha_inicial),end:new Date(elem.fecha_final),color:'orange'})	
-			}
-			else{
-				$scope.events.push({id:elem.rowid,title:elem.tema,start:new Date(elem.fecha_inicial),end:new Date(elem.fecha_final),color:'blue'})	
+			for (var i = 0; i < elem.length; i++) {
+				$scope.actividades.push(elem[i]);
+				//hora Inicial
+				$scope.fechainicial=new Date(elem[i].fecha_inicial);
+				//Hora Final
+				$scope.fechafinal=new Date(elem[i].fecha_final);
+				if (elem[i].ind_prioridad=='Alta') {
+					$scope.events.push({id:elem[i].rowid,title:elem[i].tema,start:new Date(elem[i].fecha_inicial),end:new Date(elem[i].fecha_final),color:'red'})	
+				}
+				else if (elem[i].ind_prioridad=='Media') {
+					$scope.events.push({id:elem[i].rowid,title:elem[i].tema,start:new Date(elem[i].fecha_inicial),end:new Date(elem[i].fecha_final),color:'orange'})	
+				}
+				else{
+					$scope.events.push({id:elem[i].rowid,title:elem[i].tema,start:new Date(elem[i].fecha_inicial),end:new Date(elem[i].fecha_final),color:'blue'})	
+				}
 			}
 			$scope.eventSources=$scope.events;
 			angular.element('#calendar1').fullCalendar('removeEvents');
