@@ -12,6 +12,16 @@
     background-repeat:no-repeat;background-size:200px 100%;
     border: 1px solid black;
 </style>
+<script>
+    $(document).ready(function()
+    {
+        $('.imagenp').click(function()
+        {
+            var src = $(this).attr('src');
+            $("#imagenP").attr("src", src)
+        })
+    })
+</script>
 <div ng-controller="pedidoController">
     <div class="page-title">
         <div class="title_left">
@@ -777,12 +787,13 @@
                             <form id="antoform" class="form-horizontal calender form-label-left" role="form">
                                 <div class="row form-group">
                                     <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12" ng-show="ProductoModal.url_imagen!='null'">
-                                        <img  style="height:auto;width:80px;cursor:pointer;padding:2px"  src="{{url}}{{ProductoModal.imagen2}}" ng-show="ProductoModal.url_imagen!='null'">
-                                        <img style="height:auto;width:80px;cursor:pointer;padding:2px"  src="{{url}}{{ProductoModal.imagen3}}" ng-show="ProductoModal.url_imagen!='null'">
-                                        <img style="height:auto;width:80px;cursor:pointer;padding:2px"  src="{{url}}{{ProductoModal.imagen4}}" ng-show="ProductoModal.url_imagen!='null'">
+                                    <img class="imagenp"  style="height:auto;width:80px;cursor:pointer;padding:2px"  src="{{url}}{{ProductoModal.url_imagen}}" ng-show="ProductoModal.url_imagen!='null'">
+                                        <img class="imagenp"  style="height:auto;width:80px;cursor:pointer;padding:2px"  src="{{url}}{{ProductoModal.imagen2}}" ng-show="ProductoModal.url_imagen!='null'">
+                                        <img class="imagenp" style="height:auto;width:80px;cursor:pointer;padding:2px"  src="{{url}}{{ProductoModal.imagen3}}" ng-show="ProductoModal.url_imagen!='null'">
+                                        <img class="imagenp" style="height:auto;width:80px;cursor:pointer;padding:2px"  src="{{url}}{{ProductoModal.imagen4}}" ng-show="ProductoModal.url_imagen!='null'">
                                     </div>
                                     <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
-                                        <img src="{{url}}{{ProductoModal.url_imagen}}" ng-show="ProductoModal.url_imagen!='null'">
+                                        <img id="imagenP" src="{{url}}{{ProductoModal.url_imagen}}" ng-show="ProductoModal.url_imagen!='null'" style="width:100%;height:auto">
                                         <div class="img_pro" style="border: 1px solid #b6b6b6;background:{{ProductoModal.rgba}}" 
                                 ng-show="ProductoModal.url_imagen=='null'">
                                             
