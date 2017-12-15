@@ -770,7 +770,6 @@ app_angular.controller("PedidosLocalesController",['Conexion','$scope','$route',
 	}
 	$scope.cargarLista();
 	$scope.build=function(rowid){
-		debugger
 		ProcesadoShow();
 		$scope.queryBuild='    select  '+
 		   ' t.key_user,'+

@@ -316,6 +316,7 @@ app_angular.controller('sessionController',['bootbox','Conexion','$scope','$loca
                 }, 1000);
             },
             error: function (request) {
+                debugger
                 $scope.SincronizacionProceso=false;
                 $scope.procesoSincronizacion=false;
                 Mensajes('Por favor revisar conexion','error','');
