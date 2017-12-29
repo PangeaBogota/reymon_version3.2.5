@@ -1,6 +1,3 @@
-/**
- * Created by dev10 on 12/23/2015.
- */
 var app_angular = angular.module('PedidosOnline', ['chart.js','ui.calendar','angular-websql', 'ngResource', 'ngRoute','angular-bootbox','angular.directives-round-progress']);
 
 app_angular.config(['$routeProvider',//'$locationProvider',
